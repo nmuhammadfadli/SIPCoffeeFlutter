@@ -35,12 +35,10 @@ class _ReportPageState extends State<ReportPage> {
       );
 
       if (response.statusCode == 200) {
-       // print('Response: ${response.body}');
         List<dynamic> jsonResponse = json.decode(response.body);
         if (jsonResponse is List && jsonResponse.isNotEmpty && jsonResponse[0] is List) {
           List<dynamic> innerList = jsonResponse[0];
 
-          // Check if the inner list contains maps
           if (innerList.isNotEmpty && innerList[0] is Map<String, dynamic>) {
             setState(() {
               data = innerList.map((item) => item as Map<String, dynamic>).toList();
@@ -79,7 +77,7 @@ class _ReportPageState extends State<ReportPage> {
           ),
         ),
         centerTitle: true,
-         leading: IconButton(
+        leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.green),
           onPressed: () {
             Navigator.pop(context);
@@ -107,14 +105,14 @@ class _ReportPageState extends State<ReportPage> {
                     elevation: 4.0,
                     child: ListTile(
                       leading: Icon(
-                        Icons.local_florist, // Icon untuk varietas pohon
-                        color: Colors.green, // Warna ikon
+                        Icons.local_florist, 
+                        color: Colors.green, 
                       ),
                       title: Text(
                         'Kode Lahan: $kodeLahan',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'Roboto', // Gunakan font Roboto
+                          fontFamily: 'Roboto', 
                         ),
                       ),
                       subtitle: Column(
@@ -124,14 +122,14 @@ class _ReportPageState extends State<ReportPage> {
                             children: [
                               Icon(
                                 Icons.coffee,
-                                color: Colors.green, // Warna ikon
-                                size: 16.0, // Ukuran ikon
+                                color: Colors.green,
+                                size: 16.0,
                               ),
                               SizedBox(width: 8.0),
                               Text(
                                 'Total Bibit: $totalBibit',
                                 style: TextStyle(
-                                  fontFamily: 'Roboto', // Gunakan font Roboto
+                                  fontFamily: 'Roboto',
                                   color: Colors.grey[800],
                                 ),
                               ),
@@ -140,15 +138,15 @@ class _ReportPageState extends State<ReportPage> {
                           Row(
                             children: [
                               Icon(
-                                Icons.calendar_today, // Icon untuk tanggal
-                                color: Colors.green, // Warna ikon
-                                size: 16.0, // Ukuran ikon
+                                Icons.calendar_today,
+                                color: Colors.green,
+                                size: 16.0,
                               ),
                               SizedBox(width: 8.0),
                               Text(
                                 'Tanggal: $tanggal',
                                 style: TextStyle(
-                                  fontFamily: 'Roboto', // Gunakan font Roboto
+                                  fontFamily: 'Roboto',
                                   color: Colors.grey[800],
                                 ),
                               ),
@@ -157,16 +155,18 @@ class _ReportPageState extends State<ReportPage> {
                           Row(
                             children: [
                               Icon(
-                                Icons.location_on, // Icon untuk lokasi lahan
-                                color: Colors.green, // Warna ikon
-                                size: 16.0, // Ukuran ikon
+                                Icons.location_on,
+                                color: Colors.green,
+                                size: 16.0,
                               ),
                               SizedBox(width: 8.0),
-                              Text(
-                                'Lokasi Lahan: $lokasiLahan',
-                                style: TextStyle(
-                                  fontFamily: 'Roboto', // Gunakan font Roboto
-                                  color: Colors.grey[800],
+                              Flexible(
+                                child: Text(
+                                  'Lokasi Lahan: $lokasiLahan',
+                                  style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    color: Colors.grey[800],
+                                  ),
                                 ),
                               ),
                             ],
@@ -174,15 +174,15 @@ class _ReportPageState extends State<ReportPage> {
                           Row(
                             children: [
                               Icon(
-                                Icons.timelapse, // Icon untuk umur bibit
-                                color: Colors.green, // Warna ikon
-                                size: 16.0, // Ukuran ikon
+                                Icons.timelapse,
+                                color: Colors.green,
+                                size: 16.0,
                               ),
                               SizedBox(width: 8.0),
                               Text(
                                 'Umur Bibit: $umurBibit hari',
                                 style: TextStyle(
-                                  fontFamily: 'Roboto', // Gunakan font Roboto
+                                  fontFamily: 'Roboto',
                                   color: Colors.grey[800],
                                 ),
                               ),
@@ -191,7 +191,7 @@ class _ReportPageState extends State<ReportPage> {
                         ],
                       ),
                       onTap: () {
-                        // Tambahkan logika navigasi jika diperlukan
+                        
                       },
                     ),
                   ),

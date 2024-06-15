@@ -201,7 +201,7 @@ class _PanenAddState extends State<PanenAdd> {
               SizedBox(height: 16.0),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.green,
+                  backgroundColor: Colors.green,
                 ),
                 onPressed: () {
                   // Lakukan aksi saat tombol ditekan
@@ -239,9 +239,9 @@ class _PanenAddState extends State<PanenAdd> {
   }
 
   void _saveData() async {
-    // Panggil method ApiService untuk menyimpan data
+    
     var result = await ApiService.tambahKopi(
-      kode: selectedKodePerawatan!, // Gunakan selectedKodePerawatan
+      kode: selectedKodePerawatan!, 
       varietas: varietasController.text,
       metodePengolahan: metodePengolahanController.text,
       tglPanen: tanggalPanenController.text,

@@ -1,4 +1,4 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:another_carousel_pro/another_carousel_pro.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:login_signup/screens/home/head_home.dart';
@@ -117,7 +117,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   CardsWidget(
                   key: UniqueKey(),
                   image: AssetImage('assets/images/whatsapp.png'),
-                  text: "Hubungi Admin",
+                  text: "Hubungi Ahli",
                  onPressed: () async {
                   final url = Uri.parse('https://wa.me/6288803716911');
                   if (await canLaunchUrl(url)){

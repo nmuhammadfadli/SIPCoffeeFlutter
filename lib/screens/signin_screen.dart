@@ -296,7 +296,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           },
                           child: const Text('Sign In'),
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.green,
+                            backgroundColor: Colors.green,
                           ),
                         ),
                       ),

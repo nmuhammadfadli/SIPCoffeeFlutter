@@ -9,7 +9,7 @@ class CardsWidget extends StatelessWidget {
     Key? key,
     required this.image,
     required this.text,
-    required this.onPressed, // Tambahkan parameter onPressed
+    required this.onPressed, 
   }) : super(key: key);
 
   @override
@@ -17,7 +17,7 @@ class CardsWidget extends StatelessWidget {
     return Card(
       elevation: 0,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(15), // Atur radius sesuai keinginan Anda
+        borderRadius: BorderRadius.circular(15), 
         child: Container(
           color: Colors.white,
           width: 430,
@@ -34,9 +34,9 @@ class CardsWidget extends StatelessWidget {
                 bottom: 8,
                 left: 15,
                 child: ElevatedButton(
-                  onPressed: onPressed, // Gunakan onPressed yang diterima dari luar
+                  onPressed: onPressed, 
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
+                    backgroundColor: Colors.white,
                   ),
                   child: Text(
                     text,

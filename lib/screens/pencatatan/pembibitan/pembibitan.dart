@@ -192,7 +192,7 @@ class _PembibitanPageState extends State<PembibitanPage> {
                             ],
                           ),
                           onTap: () {
-                            // Tambahkan logika navigasi jika diperlukan
+                     
                           },
                         ),
                       ),
