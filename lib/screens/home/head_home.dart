@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:login_signup/theme/new_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:login_signup/screens/home/menu/notifikasi_page.dart';
 
@@ -32,10 +33,11 @@ class _HeadHomeState extends State<HeadHome> {
       children: [
         Text(
           "Selamat Datang\n$userName",
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             height: 1,
+            color: whiteBackgroundColor
           ),
         ),
         const Spacer(),

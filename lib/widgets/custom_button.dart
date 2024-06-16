@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_signup/theme/new_theme.dart';
 
 class CustomButton extends StatelessWidget {
   final IconData icon;
@@ -21,7 +22,7 @@ class CustomButton extends StatelessWidget {
           onTap: onPressed,
           child: Ink(
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 224, 224, 224), // Warna latar belakang
+              color: greyBackgroundColor, // Warna latar belakang
               shape: BoxShape.circle, // Bentuk lingkaran
             ),
             child: Padding(
@@ -38,7 +39,7 @@ class CustomButton extends StatelessWidget {
         Text(
           text,
           style: TextStyle(
-            color: Colors.black, // Warna teks
+            color: whiteBackgroundColor, // Warna teks
             fontWeight: FontWeight.bold,
           ),
         ),

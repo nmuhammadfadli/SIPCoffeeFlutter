@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_signup/theme/new_theme.dart';
 
 class CardsWidget extends StatelessWidget {
   final ImageProvider<Object> image;
@@ -9,7 +10,7 @@ class CardsWidget extends StatelessWidget {
     Key? key,
     required this.image,
     required this.text,
-    required this.onPressed, 
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -17,7 +18,7 @@ class CardsWidget extends StatelessWidget {
     return Card(
       elevation: 0,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(15), 
+        borderRadius: BorderRadius.circular(15),
         child: Container(
           color: Colors.white,
           width: 430,
@@ -34,14 +35,14 @@ class CardsWidget extends StatelessWidget {
                 bottom: 8,
                 left: 15,
                 child: ElevatedButton(
-                  onPressed: onPressed, 
+                  onPressed: onPressed,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
+                    backgroundColor: greyBackgroundColor,
                   ),
                   child: Text(
                     text,
                     style: TextStyle(
-                      color: Colors.green,
+                      color: greenLightColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_signup/theme/new_theme.dart';
 import 'package:login_signup/widgets/card_widget.dart';
 import 'package:login_signup/screens/pencatatan/pembibitan/pembibitan.dart';
 import 'package:login_signup/screens/pencatatan/perawatan/perawatan.dart';
@@ -15,11 +16,12 @@ class _PencatatanPageState extends State<PencatatanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: greenBackgroundColor,
         automaticallyImplyLeading: false,
         title: Text(
           "Halaman Pencatatan",
           style: TextStyle(
-            color: Colors.green,
+            color: whiteBackgroundColor,
             fontWeight: FontWeight.w600,
           ),
         ),

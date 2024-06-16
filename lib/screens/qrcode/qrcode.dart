@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:login_signup/theme/new_theme.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:path_provider/path_provider.dart';
@@ -23,10 +24,12 @@ class _QrcodePageState extends State<QrcodePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: greenBackgroundColor,
         automaticallyImplyLeading: false,
         title: Text(
           "QR Code Generator",
-          style: TextStyle(color: Colors.green, fontWeight: FontWeight.w600),
+          style: TextStyle(
+              color: whiteBackgroundColor, fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
       ),
@@ -57,12 +60,12 @@ class _QrcodePageState extends State<QrcodePage> {
               decoration: InputDecoration(
                 labelText: "Link Produk",
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.green),
+                  borderSide: BorderSide(color: whiteBackgroundColor),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.green),
+                  borderSide: BorderSide(color: whiteBackgroundColor),
                 ),
-                hintStyle: TextStyle(color: Colors.green),
+                hintStyle: TextStyle(color: whiteBackgroundColor),
               ),
               onChanged: (value) {
                 setState(() {
@@ -73,7 +76,7 @@ class _QrcodePageState extends State<QrcodePage> {
             SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
+                backgroundColor: greenLightColor,
               ),
               onPressed: () async {
                 await _saveScreenshot();
@@ -83,7 +86,6 @@ class _QrcodePageState extends State<QrcodePage> {
                 style: TextStyle(color: Colors.white, fontSize: 15),
               ),
             ),
-          
           ],
         ),
       ),

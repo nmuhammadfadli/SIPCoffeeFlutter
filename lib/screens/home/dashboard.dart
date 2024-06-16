@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:another_carousel_pro/another_carousel_pro.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:login_signup/screens/home/head_home.dart';
+import 'package:login_signup/screens/home/menu/game.dart';
 import 'package:login_signup/screens/home/menu/harga_kopi.dart';
+import 'package:login_signup/theme/new_theme.dart';
 import 'package:login_signup/widgets/cards_widget.dart';
 import 'package:login_signup/widgets/custom_button.dart';
 import 'package:login_signup/widgets/card_widget.dart';
@@ -59,7 +62,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: GoogleFonts.roboto(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 63, 63, 63),
+                    color: whiteBackgroundColor,
                   ),
                 ),
                 SizedBox(height: 10),
@@ -68,7 +71,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   children: [
                     CustomButton(
                       key: UniqueKey(),
-                      icon: Icons.book_online,
+                      icon: CupertinoIcons.book,
                       text: 'Laporan',
                       onPressed: () {
                         Navigator.push(
@@ -79,7 +82,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     ),
                     CustomButton(
                       key: UniqueKey(),
-                      icon: Icons.cloudy_snowing,
+                      icon: CupertinoIcons.sun_haze,
                       text: 'Cuaca',
                       onPressed: () {
                         Navigator.push(
@@ -90,13 +93,25 @@ class _DashboardPageState extends State<DashboardPage> {
                     ),
                     CustomButton(
                       key: UniqueKey(),
-                      icon: Icons.calendar_month,
+                      icon: CupertinoIcons.calendar,
                       text: 'Penjadwalan',
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => PenjadwalanPage()),
                         );
+                      },
+                    ),
+                    CustomButton(
+                      key: UniqueKey(),
+                      icon: CupertinoIcons.game_controller,
+                      text: 'Game',
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => GamePage()),
+                        );
+                        
                       },
                     ),
                   ],
@@ -135,7 +150,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       style: GoogleFonts.roboto(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: txtBlackColor,
                       ),
                     ),
                     GestureDetector(

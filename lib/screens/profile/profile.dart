@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login_signup/screens/signin_screen.dart';
+import 'package:login_signup/theme/new_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -65,11 +66,12 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: greenBackgroundColor,
         automaticallyImplyLeading: false,
         title: Text(
           "Halaman Profile",
           style: TextStyle(
-            color: Colors.green,
+            color: whiteBackgroundColor,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -207,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(height: 16.0),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green, 
+                  backgroundColor: greenLightColor, 
                 ),
                 onPressed: () => _logout(context),
                 child: Text('Log out'),

@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import "package:camera/camera.dart";
 import 'package:login_signup/Controller/ModelController.dart';
 import 'package:login_signup/Data/dataTret.dart';
+import 'package:login_signup/theme/new_theme.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tflite_v2/tflite_v2.dart';
+import 'package:login_signup/theme/new_theme.dart';
 
 class Scan extends StatefulWidget {
   const Scan({Key? key}) : super(key: key);
@@ -79,7 +81,7 @@ class _ScanState extends State<Scan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: greenBackgroundColor,
       body: FutureBuilder(
           future: initCamera(),
           builder: (_, snapshot) => (snapshot.connectionState ==
@@ -95,7 +97,7 @@ class _ScanState extends State<Scan> {
                       child: Text(
                         "Scan Daun",
                         style: TextStyle(
-                            color: Colors.green,
+                            color: Colors.white,
                             fontSize: 22,
             fontWeight: FontWeight.w600,),
                       ),
@@ -235,7 +237,7 @@ class _ScanState extends State<Scan> {
                         width: MediaQuery.of(context).size.width * 0.9,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Colors.green),
+                            color: greenLightColor),
                         child: const Center(
                           child: Text(
                             "PERIKSA",

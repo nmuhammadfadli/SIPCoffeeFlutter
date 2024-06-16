@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:login_signup/theme/new_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ReportPage extends StatefulWidget {
@@ -69,10 +70,11 @@ class _ReportPageState extends State<ReportPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: greenBackgroundColor,
         title: Text(
           "Data Laporan",
           style: TextStyle(
-            color: Colors.green,
+            color: whiteBackgroundColor,
             fontWeight: FontWeight.w600,
           ),
         ),

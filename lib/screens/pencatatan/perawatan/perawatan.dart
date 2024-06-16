@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_signup/screens/pencatatan/perawatan/perawatan_add.dart';
-import 'package:login_signup/services/perawatan_service.dart'; 
+import 'package:login_signup/services/perawatan_service.dart';
+import 'package:login_signup/theme/new_theme.dart';
 
 class PerawatanPage extends StatefulWidget {
   @override
@@ -39,14 +40,21 @@ class _PerawatanPageState extends State<PerawatanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: greenBackgroundColor,
         title: Text(
           "Data Perawatan",
           style: TextStyle(
-            color: Colors.green,
+            color: whiteBackgroundColor,
             fontWeight: FontWeight.w600,
           ),
         ),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: whiteBackgroundColor),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: isLoading
           ? Center(
@@ -58,7 +66,7 @@ class _PerawatanPageState extends State<PerawatanPage> {
                     'Tidak ada Data',
                     style: TextStyle(
                       fontSize: 20.0,
-                      color: Colors.grey[600],
+                      color: greyBackgroundColor,
                     ),
                   ),
                 )
@@ -69,17 +77,19 @@ class _PerawatanPageState extends State<PerawatanPage> {
                     final kodeLahan = item['kode_lahan'] ?? 'Tidak ada data';
                     final perlakuan = item['perlakuan'] ?? 'Tidak ada data';
                     final tanggal = item['tanggal'] ?? 'Tidak ada data';
-                    final kebutuhan = item['kebutuhan'].toString() ?? 'Tidak ada data';
+                    final kebutuhan =
+                        item['kebutuhan'].toString() ?? 'Tidak ada data';
                     final pupuk = item['pupuk'] ?? 'Tidak ada data';
 
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16.0),
                       child: Card(
                         elevation: 4.0,
                         child: ListTile(
                           leading: Icon(
                             Icons.local_florist, // Icon untuk kode lahan
-                            color: Colors.green, // Warna ikon
+                            color: whiteBackgroundColor, // Warna ikon
                           ),
                           title: Text(
                             'Kode Lahan: $kodeLahan',
@@ -102,7 +112,8 @@ class _PerawatanPageState extends State<PerawatanPage> {
                                   Text(
                                     'Perlakuan: $perlakuan',
                                     style: TextStyle(
-                                      fontFamily: 'Roboto', // Gunakan font Roboto
+                                      fontFamily:
+                                          'Roboto', // Gunakan font Roboto
                                       color: Colors.grey[800],
                                     ),
                                   ),
@@ -119,7 +130,8 @@ class _PerawatanPageState extends State<PerawatanPage> {
                                   Text(
                                     'Tanggal: $tanggal',
                                     style: TextStyle(
-                                      fontFamily: 'Roboto', // Gunakan font Roboto
+                                      fontFamily:
+                                          'Roboto', // Gunakan font Roboto
                                       color: Colors.grey[800],
                                     ),
                                   ),
@@ -136,7 +148,8 @@ class _PerawatanPageState extends State<PerawatanPage> {
                                   Text(
                                     'Kebutuhan: $kebutuhan',
                                     style: TextStyle(
-                                      fontFamily: 'Roboto', // Gunakan font Roboto
+                                      fontFamily:
+                                          'Roboto', // Gunakan font Roboto
                                       color: Colors.grey[800],
                                     ),
                                   ),
@@ -153,7 +166,8 @@ class _PerawatanPageState extends State<PerawatanPage> {
                                   Text(
                                     'Pupuk: $pupuk',
                                     style: TextStyle(
-                                      fontFamily: 'Roboto', // Gunakan font Roboto
+                                      fontFamily:
+                                          'Roboto', // Gunakan font Roboto
                                       color: Colors.grey[800],
                                     ),
                                   ),
@@ -170,7 +184,7 @@ class _PerawatanPageState extends State<PerawatanPage> {
                   },
                 ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
+        backgroundColor: greenLightColor,
         onPressed: () {
           Navigator.push(
             context,

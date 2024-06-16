@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_signup/theme/new_theme.dart';
 import 'package:login_signup/widgets/custom_textfield.dart';
 import 'package:login_signup/widgets/custom_timepicker.dart';
 import 'package:login_signup/widgets/custom_datepicker.dart';
@@ -18,16 +19,17 @@ class PenjadwalanPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: greenBackgroundColor,
         title: Text(
           "Tambah Penjadwalan",
           style: TextStyle(
-            color: Colors.green,
+            color: whiteBackgroundColor,
             fontWeight: FontWeight.w600,
           ),
         ),
         centerTitle: true,
          leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.green),
+          icon: Icon(Icons.arrow_back, color: whiteBackgroundColor),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -62,7 +64,7 @@ class PenjadwalanPage extends StatelessWidget {
               SizedBox(height: 16.0),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: greenLightColor,
                 ),
                 onPressed: () async {
                   if (_validateInputs()) {

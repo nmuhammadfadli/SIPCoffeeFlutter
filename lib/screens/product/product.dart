@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:login_signup/screens/product/productdetailpage.dart';
+import 'package:login_signup/theme/new_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:login_signup/screens/pencatatan/panen/panen_add.dart';
 
@@ -82,11 +83,18 @@ class _ProductPageState extends State<ProductPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: greenBackgroundColor,
         title: Text(
           "Data Product",
-          style: TextStyle(color: Colors.green, fontWeight: FontWeight.w600),
+          style: TextStyle(color: whiteBackgroundColor, fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: whiteBackgroundColor),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: isLoading
           ? Center(

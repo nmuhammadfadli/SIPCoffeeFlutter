@@ -15,7 +15,7 @@ class ArticleCard extends StatelessWidget {
       },
       child: Container(
         width: 300, // Atur lebar kartu
-        height: 200, // Atur tinggi kartu sesuai kebutuhan Anda
+        height: 240, // Atur tinggi kartu sesuai kebutuhan Anda
         margin: EdgeInsets.only(right: 10.0), // Berikan jarak antar kartu
         child: Card(
           elevation: 3,
@@ -25,7 +25,7 @@ class ArticleCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 SizedBox(
-                  height: 100, // Atur tinggi gambar sesuai kebutuhan Anda
+                  height: 116, // Atur tinggi gambar sesuai kebutuhan Anda
                   width: 300, // Atur lebar gambar sesuai lebar kartu
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10), // Melengkungkan sudut gambar
@@ -47,7 +47,7 @@ class ArticleCard extends StatelessWidget {
                           fontSize: 15.0,
                         ),
                       ),
-                      SizedBox(height: 4.0),
+                      SizedBox(height: 2),
                       // Ganti link dengan teks "Lihat Selengkapnya"
                       TextButton(
                         onPressed: () {

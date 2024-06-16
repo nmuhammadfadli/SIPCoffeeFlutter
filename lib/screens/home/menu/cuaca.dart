@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:login_signup/theme/new_theme.dart';
 import 'package:weather/weather.dart';
 
 class CuacaPage extends StatefulWidget {
@@ -10,7 +11,6 @@ class CuacaPage extends StatefulWidget {
 }
 
 class _CuacaPageState extends State<CuacaPage> {
-  
   final WeatherFactory _wf = WeatherFactory('9ccea4a0af9428b90f094836e41470cd');
 
   Weather? _weather;
@@ -18,13 +18,12 @@ class _CuacaPageState extends State<CuacaPage> {
   @override
   void initState() {
     super.initState();
-    
+
     _wf.currentWeatherByCityName("Bondowoso").then((w) {
       setState(() {
         _weather = w;
       });
     }).catchError((error) {
-      
       print('Error: ${error.toString()}');
     });
   }
@@ -33,7 +32,6 @@ class _CuacaPageState extends State<CuacaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _buildUI(),
-      
     );
   }
 
@@ -76,9 +74,10 @@ class _CuacaPageState extends State<CuacaPage> {
   Widget _locationHeader() {
     return Text(
       _weather?.areaName ?? "",
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 30,
         fontWeight: FontWeight.w500,
+        color: whiteBackgroundColor,
       ),
     );
   }
@@ -89,8 +88,9 @@ class _CuacaPageState extends State<CuacaPage> {
       children: [
         Text(
           DateFormat("h:mm a").format(now),
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 35,
+            color: greyBackgroundColor
           ),
         ),
         const SizedBox(
@@ -103,14 +103,16 @@ class _CuacaPageState extends State<CuacaPage> {
           children: [
             Text(
               DateFormat("EEEE").format(now),
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w700,
+                color: greyBackgroundColor,
               ),
             ),
             Text(
               "  ${DateFormat("d.M.y").format(now)}",
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w400,
+                color: greyBackgroundColor,
               ),
             ),
           ],
@@ -136,8 +138,8 @@ class _CuacaPageState extends State<CuacaPage> {
         ),
         Text(
           _weather?.weatherDescription ?? "",
-          style: const TextStyle(
-            color: Colors.black,
+          style: TextStyle(
+            color: darkBlueColor,
             fontSize: 20,
           ),
         ),
@@ -148,8 +150,8 @@ class _CuacaPageState extends State<CuacaPage> {
   Widget _currentTemp() {
     return Text(
       "${_weather?.temperature?.celsius?.toStringAsFixed(0)}° C",
-      style: const TextStyle(
-        color: Colors.black,
+      style: TextStyle(
+        color: whiteBackgroundColor,
         fontSize: 90,
         fontWeight: FontWeight.w500,
       ),
@@ -161,7 +163,7 @@ class _CuacaPageState extends State<CuacaPage> {
       height: MediaQuery.of(context).size.height * 0.15,
       width: MediaQuery.of(context).size.width * 0.80,
       decoration: BoxDecoration(
-        color: Colors.green,
+        color: greenLightColor,
         borderRadius: BorderRadius.circular(20),
       ),
       padding: const EdgeInsets.all(8.0),

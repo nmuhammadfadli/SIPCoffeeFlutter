@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:login_signup/screens/pencatatan/pembibitan/pembibitan_add.dart';
+import 'package:login_signup/theme/new_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PembibitanPage extends StatefulWidget {
@@ -76,17 +77,18 @@ class _PembibitanPageState extends State<PembibitanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: greenBackgroundColor,
         automaticallyImplyLeading: false,
         title: Text(
           "Data Pembibitan",
           style: TextStyle(
-            color: Colors.green,
+            color: whiteBackgroundColor,
             fontWeight: FontWeight.w600,
           ),
         ),
     centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.green),
+          icon: Icon(Icons.arrow_back, color: whiteBackgroundColor),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -94,7 +96,7 @@ class _PembibitanPageState extends State<PembibitanPage> {
       ),
       body: isLoading
           ? Center(
-              child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(),
             )
           : data.isEmpty
               ? Center(
@@ -102,7 +104,7 @@ class _PembibitanPageState extends State<PembibitanPage> {
                     'Tidak ada Data',
                     style: TextStyle(
                       fontSize: 20.0,
-                      color: Colors.grey[600],
+                      color: greyBackgroundColor,
                     ),
                   ),
                 )
@@ -200,7 +202,7 @@ class _PembibitanPageState extends State<PembibitanPage> {
                   },
                 ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
+        backgroundColor: greenLightColor,
         onPressed: () {
           Navigator.push(
             context,
