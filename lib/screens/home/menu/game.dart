@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:login_signup/screens/home/menu/gamification/quiz_selection.dart';
 import 'package:login_signup/screens/home/menu/leaderboard.dart';
 import 'package:login_signup/theme/new_theme.dart';
 import 'package:login_signup/widgets/gamification/card.dart';
@@ -284,49 +285,54 @@ class _GamePageState extends State<GamePage> {
   }
 
   Widget buildQuizCard() {
-    return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      padding: EdgeInsets.symmetric(
-        vertical: 12,
-        horizontal: 16,
-      ),
-      height: 80,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: greyBackgroundColor),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Perawatan Kopi',
-                style: BlackRubikTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: medium,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => QuizSelectionPage()));
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 16),
+        padding: EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: 16,
+        ),
+        height: 80,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: greyBackgroundColor),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Perawatan Kopi',
+                  style: BlackRubikTextStyle.copyWith(
+                    fontSize: 16,
+                    fontWeight: medium,
+                  ),
                 ),
-              ),
-              Text(
-                'Kopi • 12 Quiz',
-                style: GreyRubikTextStyle.copyWith(
-                  fontSize: 12,
+                Text(
+                  'Kopi • 12 Quiz',
+                  style: GreyRubikTextStyle.copyWith(
+                    fontSize: 12,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Transform.rotate(
-            angle: 3.14,
-            child: Icon(
-              Icons.arrow_back_ios_new_outlined,
-              color: purpleColor,
-              size: 12,
+              ],
             ),
-          )
-        ],
+            Transform.rotate(
+              angle: 3.14,
+              child: Icon(
+                Icons.arrow_back_ios_new_outlined,
+                color: purpleColor,
+                size: 12,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
