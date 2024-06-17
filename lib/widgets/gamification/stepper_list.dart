@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:login_signup/screens/home/menu/gamification/list_quiz_page.dart';
 import 'package:login_signup/theme/new_theme.dart';
+import 'package:login_signup/screens/home/menu/gamification/quiz_selection.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:login_signup/screens/pencatatan/pembibitan/pembibitan_add.dart';
+import 'package:login_signup/screens/pencatatan/perawatan/perawatan_add.dart';
+import 'package:login_signup/screens/pencatatan/panen/panen_add.dart';
 
 class StepStatus {
   bool isCompleted;
@@ -14,24 +20,72 @@ class StepperListView extends StatefulWidget {
 }
 
 class _StepperListViewState extends State<StepperListView> {
-  // Menambahkan Map untuk menyimpan status subjudul
   Map<String, Map<String, StepStatus>> substepStatus = {
     'Pembibitan': {
       'Panduan YouTube': StepStatus(isCompleted: false),
-      'Halaman Pencatatan': StepStatus(isCompleted: false),
+      'Halaman Pembibitan': StepStatus(isCompleted: false),
       'Halaman Quiz Post Test': StepStatus(isCompleted: false),
     },
     'Perawatan': {
       'Panduan YouTube': StepStatus(isCompleted: false),
-      'Halaman Pencatatan': StepStatus(isCompleted: false),
+      'Halaman Perawatan': StepStatus(isCompleted: false),
       'Halaman Quiz Post Test': StepStatus(isCompleted: false),
     },
     'Panen': {
       'Panduan YouTube': StepStatus(isCompleted: false),
-      'Halaman Pencatatan': StepStatus(isCompleted: false),
+      'Halaman Panen': StepStatus(isCompleted: false),
       'Halaman Quiz Post Test': StepStatus(isCompleted: false),
     },
   };
+
+  Future<void> _launchYouTube() async {
+    const url = 'https://youtu.be/NI0ppqgeXVY?si=TYJY6e0guqkxzK56';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  void _navigateToPage(String title, String action) {
+    Widget page;
+    switch (title) {
+      case 'Pembibitan':
+        if (action == 'Halaman Pembibitan') {
+          page = PembibitanAdd(); 
+        } else if (action == 'Halaman Quiz Post Test') {
+          page = ListQuizPage(); 
+        } else {
+          return;
+        }
+        break;
+      case 'Perawatan':
+        if (action == 'Halaman Perawatan') {
+          page = PerawatanAdd(); 
+        } else if (action == 'Halaman Quiz Post Test') {
+          page = ListQuizPage(); 
+        } else {
+          return;
+        }
+        break;
+      case 'Panen':
+        if (action == 'Halaman Panen') {
+          page = PanenAdd(); 
+        } else if (action == 'Halaman Quiz Post Test') {
+          page = ListQuizPage(); 
+        } else {
+          return;
+        }
+        break;
+      default:
+        return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +109,7 @@ class _StepperListViewState extends State<StepperListView> {
                         _buildActionRow(
                             'Panduan YouTube', title, substepStatus[title]!),
                         _buildActionRow(
-                            'Halaman Pencatatan', title, substepStatus[title]!),
+                            'Halaman ${title}', title, substepStatus[title]!),
                         _buildActionRow('Halaman Quiz Post Test', title,
                             substepStatus[title]!),
                       ],
@@ -110,14 +164,22 @@ class _StepperListViewState extends State<StepperListView> {
       child: Row(
         children: [
           Expanded(
-            child: Text(action),
+            child: GestureDetector(
+              onTap: () {
+                if (action == 'Panduan YouTube') {
+                  _launchYouTube();
+                } else {
+                  _navigateToPage(title, action);
+                }
+              },
+              child: Text(action),
+            ),
           ),
           ElevatedButton(
             onPressed: isCompleted
                 ? null
                 : () {
                     setState(() {
-                      // Mengubah status menjadi selesai dilakukan
                       statusMap[action]!.isCompleted = true;
                     });
                   },

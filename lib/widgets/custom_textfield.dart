@@ -13,7 +13,7 @@ class CustomTextField extends StatelessWidget {
     this.hintText,
     required this.controller,
     this.readOnly = false,
-    this.isTextInput = true, 
+    this.isTextInput = true,
   }) : super(key: key);
 
   @override
@@ -22,22 +22,34 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       readOnly: readOnly,
       keyboardType: isTextInput ? TextInputType.text : TextInputType.number,
+      style: const TextStyle(
+        color: Colors.white, // Mengatur warna teks menjadi putih
+      ),
       decoration: InputDecoration(
         labelText: labelText,
+        labelStyle: const TextStyle(
+          color: Colors.white, 
+        ),
         hintText: hintText,
         hintStyle: const TextStyle(
-          color: Colors.green,
+          color: Colors.white, 
           fontSize: 27,
         ),
         border: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Colors.green,
+            color: Colors.white, 
           ),
           borderRadius: BorderRadius.circular(10),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Colors.blue,
+            color: Colors.white, 
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Colors.white, 
           ),
           borderRadius: BorderRadius.circular(10),
         ),
