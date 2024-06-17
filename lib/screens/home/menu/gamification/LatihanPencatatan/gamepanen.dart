@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:login_signup/screens/product/product.dart';
 import 'package:login_signup/widgets/custom_textfield.dart';
 import 'package:login_signup/widgets/custom_datepicker.dart';
+import 'package:login_signup/screens/home/menu/game.dart';
+import 'package:login_signup/services/database_game.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -211,6 +213,11 @@ class _GamePanenState extends State<GamePanen> {
                   // Lakukan aksi saat tombol ditekan
                   if (_validateInputs()) {
                     // _saveData(); //add method baru
+                        _incrementScore();
+                     Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => GamePage()),
+                        );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -227,6 +234,12 @@ class _GamePanenState extends State<GamePanen> {
       ),
     );
   }
+    Future<void> _incrementScore() async {
+    final dbHelper = DatabaseGame();
+    int currentScore = await dbHelper.getScore();
+    int newScore = currentScore + 10;
+    await dbHelper.updateScore(newScore);
+  }
 
   bool _validateInputs() {
     return selectedKodePerawatan != null &&
@@ -241,38 +254,4 @@ class _GamePanenState extends State<GamePanen> {
         hargaController.text.isNotEmpty &&
         _image != null;
   }
-
-  // void _saveData() async {
-  //   var result = await ApiService.tambahKopi(
-  //     kode: selectedKodePerawatan!,
-  //     varietas: varietasController.text,
-  //     metodePengolahan: metodePengolahanController.text,
-  //     tglPanen: tanggalPanenController.text,
-  //     tglRoasting: tanggalRoastingController.text,
-  //     tglExp: tanggalExpiredController.text,
-  //     berat: beratController.text,
-  //     stok: stokController.text,
-  //     harga: hargaController.text,
-  //     deskripsi: deskripsiController.text,
-  //     gambar1: _image!,
-  //   );
-
-  //   if (result['success']) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text(result['message']),
-  //       ),
-  //     );
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => ProductPage()),
-  //     );
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text(result['message']),
-  //       ),
-  //     );
-  //   }
-  // }
 }

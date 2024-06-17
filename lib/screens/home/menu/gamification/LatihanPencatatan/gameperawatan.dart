@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:login_signup/widgets/custom_textfield.dart';
 import 'package:login_signup/widgets/custom_datepicker.dart';
+import 'package:login_signup/screens/home/menu/game.dart';
+import 'package:login_signup/services/database_game.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GamePerawatan extends StatefulWidget {
@@ -26,44 +28,7 @@ class _GamePerawatanState extends State<GamePerawatan> {
   @override
   void initState() {
     super.initState();
-    // _fetchKodeLahan();
   }
-
-  // Future<void> _fetchKodeLahan() async {
-  //   try {
-  //     final userName = await _loadUserName();
-  //     print('User Name from SharedPreferences: $userName');
-  //     if (userName == null) {
-  //       throw Exception('User Name is null');
-  //     }
-  //     final response = await http.get(
-  //       Uri.parse('https://dev.sipkopi.com/api/lahan/tampil/user/$userName'),
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       print('Response: ${response.body}');
-  //       List<dynamic> jsonResponse = json.decode(response.body);
-  //       if (jsonResponse is List && jsonResponse.isNotEmpty && jsonResponse[0] is List) {
-  //         List<dynamic> innerList = jsonResponse[0];
-
-  //         if (innerList.isNotEmpty && innerList[0] is Map<String, dynamic>) {
-  //           setState(() {
-  //             kodeLahanList = innerList.map((item) => item['kode_lahan'] as String).toList();
-  //           });
-  //         } else {
-  //           print('Unexpected inner list format');
-  //         }
-  //       } else {
-  //         print('Unexpected response format');
-  //       }
-  //     } else {
-  //       print('Failed to load data: ${response.statusCode}');
-  //       throw Exception('Failed to load data');
-  //     }
-  //   } catch (e) {
-  //     print('Error: $e');
-  //   }
-  // }
 
   Future<String?> _loadUserName() async {
     try {
@@ -181,6 +146,11 @@ class _GamePerawatanState extends State<GamePerawatan> {
                 onPressed: () {
                   if (_validateInputs()) {
                     // _saveData(); // Uncomment this line to save data
+                        _incrementScore();
+                     Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => GamePage()),
+                        );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -197,6 +167,12 @@ class _GamePerawatanState extends State<GamePerawatan> {
       ),
     );
   }
+    Future<void> _incrementScore() async {
+    final dbHelper = DatabaseGame();
+    int currentScore = await dbHelper.getScore();
+    int newScore = currentScore + 10;
+    await dbHelper.updateScore(newScore);
+  }
 
   bool _validateInputs() {
     return selectedKodeLahan != null &&
@@ -206,44 +182,4 @@ class _GamePerawatanState extends State<GamePerawatan> {
         (selectedPerlakuan == 'Pemupukan' ? namaPupukController.text.isNotEmpty : true) &&
         kebutuhanPupukController.text.isNotEmpty;
   }
-
-  // Future<void> _saveData() async {
-  //   final String apiUrl = 'https://dev.sipkopi.com/api/pere/tambah';
-  //   try {
-  //     final response = await http.post(
-  //       Uri.parse(apiUrl),
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: json.encode({
-  //         'kode_lahan': selectedKodeLahan,
-  //         'perlakuan': selectedPerlakuan,
-  //         'tanggal': tanggalController.text,
-  //         'kebutuhan': kebutuhanPupukController.text,
-  //         'pupuk': selectedPerlakuan == 'Pemupukan' ? namaPupukController.text : null,
-  //       }),
-  //     );
-
-  //     if (response.statusCode == 200 || response.statusCode == 201) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(
-  //           content: Text('Data berhasil disimpan.'),
-  //         ),
-  //       );
-  //       Navigator.pop(context);
-  //     } else {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(
-  //           content: Text('Gagal menyimpan data. Status: ${response.statusCode}'),
-  //         ),
-  //       );
-  //     }
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text('Error: $e'),
-  //       ),
-  //     );
-  //   }
-  // }
 }

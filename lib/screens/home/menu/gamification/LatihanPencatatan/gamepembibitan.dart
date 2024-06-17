@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:login_signup/widgets/custom_textfield.dart';
 import 'package:login_signup/widgets/custom_datepicker.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:login_signup/screens/home/menu/game.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:login_signup/services/database_helper.dart';
 
 class GamePembibitan extends StatefulWidget {
   @override
@@ -210,6 +210,10 @@ class _GamePembibitanState extends State<GamePembibitan> {
                 onPressed: () {
                   if (_validateInputs()) {
                     _incrementScore();
+                     Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => GamePage()),
+                        );
                    // _saveData();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -238,49 +242,5 @@ class _GamePembibitanState extends State<GamePembibitan> {
         luasLahanController.text.isNotEmpty &&
         longitudeController.text.isNotEmpty &&
         latitudeController.text.isNotEmpty;
-  }
-
-  Future<void> _saveData() async {
-    final String apiUrl = 'https://dev.sipkopi.com/api/lahan/tambah';
-    try {
-      final response = await http.post(
-        Uri.parse(apiUrl),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: json.encode({
-          'user': pemilikController.text,
-          'varietas_pohon': varietasController.text,
-          'total_bibit': jumlahBibitController.text,
-          'luas_lahan': luasLahanController.text,
-          'tanggal': tanggalController.text,
-          'ketinggian_tanam': ketinggianController.text,
-          'lokasi_lahan': lokasiController.text,
-          'longtitude': longitudeController.text,
-          'latitude': latitudeController.text,
-        }),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Data berhasil disimpan.'),
-          ),
-        );
-        Navigator.pop(context);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Gagal menyimpan data. Status: ${response.statusCode}'),
-          ),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error: $e'),
-        ),
-      );
-    }
   }
 }
