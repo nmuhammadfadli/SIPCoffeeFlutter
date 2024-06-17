@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_signup/screens/home/menu/game.dart';
 
 class ResultPage extends StatelessWidget {
   final int score;
@@ -45,7 +46,10 @@ class ResultPage extends StatelessWidget {
             const SizedBox(height: 40.0),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).popUntil((route) => route.isFirst);
+               Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => GamePage()), 
+      );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,

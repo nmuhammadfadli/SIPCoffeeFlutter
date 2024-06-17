@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:login_signup/screens/home/menu/gamification/list_quiz_page.dart';
-import 'package:login_signup/screens/home/menu/gamification/quiz_selection.dart';
-import 'package:login_signup/screens/home/menu/leaderboard.dart';
+import 'package:login_signup/services/database_game.dart';
 import 'package:login_signup/theme/new_theme.dart';
-import 'package:login_signup/widgets/gamification/card.dart';
 import 'package:login_signup/widgets/gamification/stepper_list.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:login_signup/services/database_helper.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
@@ -18,6 +14,27 @@ class GamePage extends StatefulWidget {
 
 class _GamePageState extends State<GamePage> {
   String currentCategory = 'Tren';
+  int score = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadScore();
+  }
+
+  Future<void> _loadScore() async {
+    int savedScore = await DatabaseGame().getScore();
+    setState(() {
+      score = savedScore;
+    });
+  }
+
+  Future<void> _incrementScore() async {
+    setState(() {
+      score += 10; // Misalnya, tambahkan 10 poin setiap kali.
+    });
+    await DatabaseGame().updateScore(score);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +58,17 @@ class _GamePageState extends State<GamePage> {
             Navigator.pop(context);
           },
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: Center(
+              child: Text(
+                'Skor: $score',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Center(
         child: Column(
@@ -49,11 +77,10 @@ class _GamePageState extends State<GamePage> {
               height: MediaQuery.of(context).size.height / 1.5,
               child: StepperListView(),
             ),
-            SizedBox(
-              height: 60,
-            ),
+            SizedBox(height: 60),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
+                await _incrementScore(); // Increment score when this button is pressed
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ListQuizPage()),
@@ -64,8 +91,9 @@ class _GamePageState extends State<GamePage> {
                 width: double.infinity,
                 height: 50,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: greenLightColor),
+                  borderRadius: BorderRadius.circular(12),
+                  color: greenLightColor,
+                ),
                 child: Center(
                   child: Text(
                     'Lewati Panduan',
@@ -74,13 +102,10 @@ class _GamePageState extends State<GamePage> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 40,
-            ),
+            SizedBox(height: 40),
           ],
         ),
       ),
     );
-    // body: buildBodyPage());
   }
 }

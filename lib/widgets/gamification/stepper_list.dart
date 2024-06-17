@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:login_signup/screens/home/menu/gamification/LatihanPencatatan/gamepanen.dart';
+import 'package:login_signup/screens/home/menu/gamification/LatihanPencatatan/gamepembibitan.dart';
+import 'package:login_signup/screens/home/menu/gamification/LatihanPencatatan/gameperawatan.dart';
 import 'package:login_signup/screens/home/menu/gamification/list_quiz_page.dart';
-import 'package:login_signup/theme/new_theme.dart';
 import 'package:login_signup/screens/home/menu/gamification/quiz_selection.dart';
+import 'package:login_signup/services/database_game.dart';
+import 'package:login_signup/theme/new_theme.dart';
+import 'package:login_signup/screens/home/menu/gamification/quiz_page.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:login_signup/screens/pencatatan/pembibitan/pembibitan_add.dart';
-import 'package:login_signup/screens/pencatatan/perawatan/perawatan_add.dart';
-import 'package:login_signup/screens/pencatatan/panen/panen_add.dart';
+import 'package:login_signup/services/database_helper.dart';
 
 class StepStatus {
   bool isCompleted;
@@ -42,9 +45,17 @@ class _StepperListViewState extends State<StepperListView> {
     const url = 'https://youtu.be/NI0ppqgeXVY?si=TYJY6e0guqkxzK56';
     if (await canLaunch(url)) {
       await launch(url);
+      await _incrementScore();
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  Future<void> _incrementScore() async {
+    final dbHelper = DatabaseGame();
+    int currentScore = await dbHelper.getScore();
+    int newScore = currentScore + 10;
+    await dbHelper.updateScore(newScore);
   }
 
   void _navigateToPage(String title, String action) {
@@ -52,27 +63,27 @@ class _StepperListViewState extends State<StepperListView> {
     switch (title) {
       case 'Pembibitan':
         if (action == 'Halaman Pembibitan') {
-          page = PembibitanAdd(); 
+          page = GamePembibitan();
         } else if (action == 'Halaman Quiz Post Test') {
-          page = ListQuizPage(); 
+          page = QuizSelectionPage();
         } else {
           return;
         }
         break;
       case 'Perawatan':
         if (action == 'Halaman Perawatan') {
-          page = PerawatanAdd(); 
+          page = GamePerawatan();
         } else if (action == 'Halaman Quiz Post Test') {
-          page = ListQuizPage(); 
+          page = ListQuizPage();
         } else {
           return;
         }
         break;
       case 'Panen':
         if (action == 'Halaman Panen') {
-          page = PanenAdd(); 
+          page = GamePanen();
         } else if (action == 'Halaman Quiz Post Test') {
-          page = ListQuizPage(); 
+          page = ListQuizPage();
         } else {
           return;
         }
