@@ -1,16 +1,16 @@
-import 'dart:async';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
 class GameHelper {
   static final GameHelper instance = GameHelper._init();
+
   static Database? _database;
 
   GameHelper._init();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDB('steps.db');
+    _database = await _initDB('game.db');
     return _database!;
   }
 
@@ -22,75 +22,67 @@ class GameHelper {
   }
 
   Future _createDB(Database db, int version) async {
-    const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
-    const boolType = 'BOOLEAN NOT NULL';
-
-    await db.execute('''
-    CREATE TABLE steps (
-      id $idType,
-      step TEXT NOT NULL,
-      action TEXT NOT NULL,
-      isCompleted $boolType,
-      isLocked $boolType
+    const stepStatusTable = '''
+    CREATE TABLE step_status (
+      id INTEGER PRIMARY KEY,
+      title TEXT,
+      action TEXT,
+      isCompleted INTEGER,
+      isLocked INTEGER
     )
-    ''');
+    ''';
+
+    await db.execute(stepStatusTable);
   }
 
-  Future<void> insertStep(String step, String action, bool isCompleted, bool isLocked) async {
+  Future<Map<String, Map<String, StepStatus>>> fetchStepStatuses() async {
+    final db = await instance.database;
+
+    final result = await db.query('step_status');
+
+    Map<String, Map<String, StepStatus>> stepStatuses = {
+      'Pembibitan': {
+        'Panduan YouTube': StepStatus(isCompleted: false, isLocked: false),
+        'Halaman Pembibitan': StepStatus(isCompleted: false, isLocked: true),
+        'Halaman Quiz Post Test': StepStatus(isCompleted: false, isLocked: true),
+      },
+      'Perawatan': {
+        'Panduan YouTube': StepStatus(isCompleted: false, isLocked: true),
+        'Halaman Perawatan': StepStatus(isCompleted: false, isLocked: true),
+        'Halaman Quiz Post Test': StepStatus(isCompleted: false, isLocked: true),
+      },
+      'Panen': {
+        'Panduan YouTube': StepStatus(isCompleted: false, isLocked: true),
+        'Halaman Panen': StepStatus(isCompleted: false, isLocked: true),
+        'Halaman Quiz Post Test': StepStatus(isCompleted: false, isLocked: true),
+      },
+    };
+
+    for (var row in result) {
+      String title = row['title'] as String;
+      String action = row['action'] as String;
+      bool isCompleted = row['isCompleted'] == 1;
+      bool isLocked = row['isLocked'] == 1;
+
+      stepStatuses[title]![action] = StepStatus(isCompleted: isCompleted, isLocked: isLocked);
+    }
+
+    return stepStatuses;
+  }
+
+  Future<void> insertStepStatus(String title, String action, StepStatus status) async {
     final db = await instance.database;
 
     await db.insert(
-      'steps',
-      {'step': step, 'action': action, 'isCompleted': isCompleted ? 1 : 0, 'isLocked': isLocked ? 1 : 0},
+      'step_status',
+      {
+        'title': title,
+        'action': action,
+        'isCompleted': status.isCompleted ? 1 : 0,
+        'isLocked': status.isLocked ? 1 : 0,
+      },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-  }
-
-  Future<void> updateStep(String step, String action, bool isCompleted, bool isLocked) async {
-    final db = await instance.database;
-
-    await db.update(
-      'steps',
-      {'isCompleted': isCompleted ? 1 : 0, 'isLocked': isLocked ? 1 : 0},
-      where: 'step = ? AND action = ?',
-      whereArgs: [step, action],
-    );
-  }
-
-  Future<Map<String, Map<String, StepStatus>>> fetchSteps() async {
-    final db = await instance.database;
-
-    final steps = await db.query('steps');
-
-    Map<String, Map<String, StepStatus>> stepStatus = {
-      'Pembibitan': {},
-      'Perawatan': {},
-      'Panen': {},
-    };
-
-    for (var step in steps) {
-      final stepName = step['step'] as String;
-      final actionName = step['action'] as String;
-      final isCompleted = step['isCompleted'] == 1;
-      final isLocked = step['isLocked'] == 1;
-
-      stepStatus[stepName]![actionName] = StepStatus(
-        isCompleted: isCompleted,
-        isLocked: isLocked,
-      );
-    }
-
-    return stepStatus;
-  }
-
-  Future<void> deleteAllSteps() async {
-    final db = await instance.database;
-    await db.delete('steps');
-  }
-
-  Future close() async {
-    final db = await instance.database;
-    db.close();
   }
 }
 

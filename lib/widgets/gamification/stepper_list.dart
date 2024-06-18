@@ -6,16 +6,8 @@ import 'package:login_signup/screens/home/menu/gamification/list_quiz_page.dart'
 import 'package:login_signup/screens/home/menu/gamification/quiz_selection.dart';
 import 'package:login_signup/services/database_game.dart';
 import 'package:login_signup/theme/new_theme.dart';
-import 'package:login_signup/screens/home/menu/gamification/quiz_page.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:login_signup/services/database_helper.dart';
-
-class StepStatus {
-  bool isCompleted;
-  bool isLocked; // Tambahan untuk melacak apakah langkah terkunci
-
-  StepStatus({required this.isCompleted, required this.isLocked});
-}
+import 'package:login_signup/services/game_helper.dart';
 
 class StepperListView extends StatefulWidget {
   const StepperListView({Key? key}) : super(key: key);
@@ -43,6 +35,22 @@ class _StepperListViewState extends State<StepperListView> {
     },
   };
 
+  @override
+  void initState() {
+    super.initState();
+    _loadStepStatuses();
+  }
+
+  Future<void> _loadStepStatuses() async {
+    substepStatus = await GameHelper.instance.fetchStepStatuses();
+    print(substepStatus); // Debugging log
+    setState(() {});
+  }
+
+  Future<void> _updateStepStatus(String title, String action, StepStatus status) async {
+    await GameHelper.instance.insertStepStatus(title, action, status);
+  }
+
   Future<void> _launchYouTube() async {
     const url = 'https://youtu.be/NI0ppqgeXVY?si=TYJY6e0guqkxzK56';
     if (await canLaunch(url)) {
@@ -63,21 +71,21 @@ class _StepperListViewState extends State<StepperListView> {
   void _updateTaskCompletion(String title, String action) {
     setState(() {
       substepStatus[title]![action]!.isCompleted = true;
+      _updateStepStatus(title, action, substepStatus[title]![action]!);
 
-      // Membuka tugas berikutnya dalam urutan
       if (action == 'Panduan YouTube') {
         substepStatus[title]!['Halaman Pembibitan']!.isLocked = false;
+        _updateStepStatus(title, 'Halaman Pembibitan', substepStatus[title]!['Halaman Pembibitan']!);
       } else if (action == 'Halaman Pembibitan') {
         substepStatus[title]!['Halaman Quiz Post Test']!.isLocked = false;
+        _updateStepStatus(title, 'Halaman Quiz Post Test', substepStatus[title]!['Halaman Quiz Post Test']!);
       }
-
-      // Membuka langkah utama berikutnya jika semua sublangkah selesai
-      if (title == 'Pembibitan' &&
-          substepStatus[title]!.values.every((status) => status.isCompleted)) {
+      if (title == 'Pembibitan' && substepStatus[title]!.values.every((status) => status.isCompleted)) {
         substepStatus['Perawatan']!['Panduan YouTube']!.isLocked = false;
-      } else if (title == 'Perawatan' &&
-          substepStatus[title]!.values.every((status) => status.isCompleted)) {
+        _updateStepStatus('Perawatan', 'Panduan YouTube', substepStatus['Perawatan']!['Panduan YouTube']!);
+      } else if (title == 'Perawatan' && substepStatus[title]!.values.every((status) => status.isCompleted)) {
         substepStatus['Panen']!['Panduan YouTube']!.isLocked = false;
+        _updateStepStatus('Panen', 'Panduan YouTube', substepStatus['Panen']!['Panduan YouTube']!);
       }
     });
   }
@@ -126,10 +134,12 @@ class _StepperListViewState extends State<StepperListView> {
         return;
     }
 
-    Navigator.push(
+       Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => page),
-    );
+    ).then((_) {
+      _updateTaskCompletion(title, action);
+    });
   }
 
   void _showAlert(String title, String message) {
@@ -171,12 +181,9 @@ class _StepperListViewState extends State<StepperListView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildActionRow(
-                            'Panduan YouTube', title, substepStatus[title]!),
-                        _buildActionRow(
-                            'Halaman ${title}', title, substepStatus[title]!),
-                        _buildActionRow('Halaman Quiz Post Test', title,
-                            substepStatus[title]!),
+                        _buildActionRow('Panduan YouTube', title, substepStatus[title]!),
+                        _buildActionRow('Halaman $title', title, substepStatus[title]!),
+                        _buildActionRow('Halaman Quiz Post Test', title, substepStatus[title]!),
                       ],
                     ),
                   ),
@@ -221,8 +228,7 @@ class _StepperListViewState extends State<StepperListView> {
     );
   }
 
-  Widget _buildActionRow(
-      String action, String title, Map<String, StepStatus> statusMap) {
+  Widget _buildActionRow(String action, String title, Map<String, StepStatus> statusMap) {
     bool isCompleted = statusMap[action]!.isCompleted;
     bool isLocked = statusMap[action]!.isLocked;
 
@@ -294,3 +300,4 @@ class _LinePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
+
