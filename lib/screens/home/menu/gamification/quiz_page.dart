@@ -4,9 +4,8 @@ import 'result_page.dart';
 
 class QuizPage extends StatefulWidget {
   final Quiz quiz;
-  final String username;
 
-  const QuizPage({required this.quiz, required this.username, super.key});
+  const QuizPage({required this.quiz, super.key});
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -36,7 +35,6 @@ class _QuizPageState extends State<QuizPage> {
       MaterialPageRoute(
         builder: (context) => ResultPage(
           score: _score,
-          username: widget.username,
           quizTitle: widget.quiz.title,
         ),
       ),

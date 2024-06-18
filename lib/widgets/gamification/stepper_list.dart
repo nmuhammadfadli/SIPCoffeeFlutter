@@ -35,6 +35,12 @@ class _StepperListViewState extends State<StepperListView> {
     },
   };
 
+  Map<String, String> youtubeUrls = {
+    'Pembibitan': 'https://youtu.be/NI0ppqgeXVY?si=yIpzeRxQl67oGgIk',
+    'Perawatan': 'https://youtu.be/L_0FiJoTQiM?si=CjTU854YIamNkVv5',
+    'Panen': 'https://youtu.be/nUfDpZqF5kA?si=MsPlLxYSjTj92t5n',
+  };
+
   @override
   void initState() {
     super.initState();
@@ -42,8 +48,7 @@ class _StepperListViewState extends State<StepperListView> {
   }
 
   Future<void> _loadStepStatuses() async {
-    substepStatus = await GameHelper.instance.fetchStepStatuses();
-    print(substepStatus); // Debugging log
+    substepStatus = await GameHelper.instance.fetchStepStatuses() ?? substepStatus;
     setState(() {});
   }
 
@@ -51,10 +56,10 @@ class _StepperListViewState extends State<StepperListView> {
     await GameHelper.instance.insertStepStatus(title, action, status);
   }
 
-  Future<void> _launchYouTube() async {
-    const url = 'https://youtu.be/NI0ppqgeXVY?si=TYJY6e0guqkxzK56';
-    if (await canLaunch(url)) {
-      await launch(url);
+  Future<void> _launchYouTube(String title) async {
+    final url = youtubeUrls[title];
+    if (url != null && await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
       await _incrementScore();
     } else {
       throw 'Could not launch $url';
@@ -70,33 +75,61 @@ class _StepperListViewState extends State<StepperListView> {
 
   void _updateTaskCompletion(String title, String action) {
     setState(() {
-      substepStatus[title]![action]!.isCompleted = true;
-      _updateStepStatus(title, action, substepStatus[title]![action]!);
+      final statusMap = substepStatus[title];
+      if (statusMap != null) {
+        final status = statusMap[action];
+        if (status != null) {
+          status.isCompleted = true;
+          _updateStepStatus(title, action, status);
 
-      if (action == 'Panduan YouTube') {
-        substepStatus[title]!['Halaman Pembibitan']!.isLocked = false;
-        _updateStepStatus(title, 'Halaman Pembibitan', substepStatus[title]!['Halaman Pembibitan']!);
-      } else if (action == 'Halaman Pembibitan') {
-        substepStatus[title]!['Halaman Quiz Post Test']!.isLocked = false;
-        _updateStepStatus(title, 'Halaman Quiz Post Test', substepStatus[title]!['Halaman Quiz Post Test']!);
-      }
-      if (title == 'Pembibitan' && substepStatus[title]!.values.every((status) => status.isCompleted)) {
-        substepStatus['Perawatan']!['Panduan YouTube']!.isLocked = false;
-        _updateStepStatus('Perawatan', 'Panduan YouTube', substepStatus['Perawatan']!['Panduan YouTube']!);
-      } else if (title == 'Perawatan' && substepStatus[title]!.values.every((status) => status.isCompleted)) {
-        substepStatus['Panen']!['Panduan YouTube']!.isLocked = false;
-        _updateStepStatus('Panen', 'Panduan YouTube', substepStatus['Panen']!['Panduan YouTube']!);
+          if (action == 'Panduan YouTube') {
+            final nextStatus = statusMap['Halaman Pembibitan'];
+            if (nextStatus != null) {
+              nextStatus.isLocked = false;
+              _updateStepStatus(title, 'Halaman Pembibitan', nextStatus);
+            }
+          } else if (action == 'Halaman Pembibitan') {
+            final nextStatus = statusMap['Halaman Quiz Post Test'];
+            if (nextStatus != null) {
+              nextStatus.isLocked = false;
+              _updateStepStatus(title, 'Halaman Quiz Post Test', nextStatus);
+            }
+          }
+
+          if (title == 'Pembibitan' && statusMap.values.every((status) => status.isCompleted)) {
+            final nextTitleStatus = substepStatus['Perawatan'];
+            if (nextTitleStatus != null) {
+              final nextActionStatus = nextTitleStatus['Panduan YouTube'];
+              if (nextActionStatus != null) {
+                nextActionStatus.isLocked = false;
+                _updateStepStatus('Perawatan', 'Panduan YouTube', nextActionStatus);
+              }
+            }
+          } else if (title == 'Perawatan' && statusMap.values.every((status) => status.isCompleted)) {
+            final nextTitleStatus = substepStatus['Panen'];
+            if (nextTitleStatus != null) {
+              final nextActionStatus = nextTitleStatus['Panduan YouTube'];
+              if (nextActionStatus != null) {
+                nextActionStatus.isLocked = false;
+                _updateStepStatus('Panen', 'Panduan YouTube', nextActionStatus);
+              }
+            }
+          }
+        }
       }
     });
   }
 
   void _navigateToPage(String title, String action) {
-    if (substepStatus[title]![action]!.isLocked) {
+    final statusMap = substepStatus[title];
+    if (statusMap == null || statusMap[action] == null) return;
+
+    if (statusMap[action]!.isLocked) {
       _showAlert('Tugas Terkunci', 'Harap selesaikan tugas sebelumnya terlebih dahulu.');
       return;
     }
 
-    if (substepStatus[title]![action]!.isCompleted) {
+    if (statusMap[action]!.isCompleted) {
       _showAlert('Tugas Selesai', 'Tugas ini sudah selesai.');
       return;
     }
@@ -116,7 +149,7 @@ class _StepperListViewState extends State<StepperListView> {
         if (action == 'Halaman Perawatan') {
           page = GamePerawatan();
         } else if (action == 'Halaman Quiz Post Test') {
-          page = ListQuizPage();
+          page = QuizSelectionPage();
         } else {
           return;
         }
@@ -125,7 +158,7 @@ class _StepperListViewState extends State<StepperListView> {
         if (action == 'Halaman Panen') {
           page = GamePanen();
         } else if (action == 'Halaman Quiz Post Test') {
-          page = ListQuizPage();
+          page = QuizSelectionPage();
         } else {
           return;
         }
@@ -134,7 +167,7 @@ class _StepperListViewState extends State<StepperListView> {
         return;
     }
 
-       Navigator.push(
+    Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => page),
     ).then((_) {
@@ -190,13 +223,10 @@ class _StepperListViewState extends State<StepperListView> {
                 ],
               ),
             ),
-            if (index < substepStatus.length - 1)
-              Container(
-                width: 40,
-                height: 40,
-                child: CustomPaint(
-                  painter: _LinePainter(),
-                ),
+            if (index != substepStatus.length - 1)
+              CustomPaint(
+                painter: _LinePainter(),
+                child: SizedBox(height: 24),
               ),
           ],
         );
@@ -208,12 +238,10 @@ class _StepperListViewState extends State<StepperListView> {
     return Row(
       children: [
         Container(
-          width: 40,
-          height: 40,
+          padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.white,
-            border: Border.all(color: greenLightColor, width: 2),
+            color: greenLightColor,
           ),
           child: Icon(iconData, color: greenLightColor),
         ),
@@ -229,8 +257,8 @@ class _StepperListViewState extends State<StepperListView> {
   }
 
   Widget _buildActionRow(String action, String title, Map<String, StepStatus> statusMap) {
-    bool isCompleted = statusMap[action]!.isCompleted;
-    bool isLocked = statusMap[action]!.isLocked;
+    bool isCompleted = statusMap[action]?.isCompleted ?? false;
+    bool isLocked = statusMap[action]?.isLocked ?? true;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
@@ -245,7 +273,7 @@ class _StepperListViewState extends State<StepperListView> {
                   _showAlert('Tugas Selesai', 'Tugas ini sudah selesai.');
                 } else {
                   if (action == 'Panduan YouTube') {
-                    _launchYouTube();
+                    _launchYouTube(title);
                   } else {
                     _navigateToPage(title, action);
                   }
@@ -300,4 +328,3 @@ class _LinePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
-

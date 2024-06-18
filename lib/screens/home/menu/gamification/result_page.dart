@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:login_signup/screens/home/menu/game.dart';
+import 'package:login_signup/services/database_game.dart';
 
 class ResultPage extends StatelessWidget {
   final int score;
-  final String username;
   final String quizTitle;
 
   const ResultPage({
     required this.score,
-    required this.username,
     required this.quizTitle,
     super.key,
   });
 
+  Future<void> _incrementScore(int score) async {
+    final dbHelper = DatabaseGame();
+    int currentScore = await dbHelper.getScore();
+    int newScore = currentScore + (score * 10);
+    await dbHelper.updateScore(newScore);
+  }
+
   @override
   Widget build(BuildContext context) {
+    int multipliedScore = score * 10; 
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Hasil Kuis', style: TextStyle(color: Colors.white)),
@@ -27,14 +35,8 @@ class ResultPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Skor Anda: $score',
+              'Skor Anda: $multipliedScore', 
               style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.green),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20.0),
-            Text(
-              'Username: $username',
-              style: const TextStyle(fontSize: 20.0),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20.0),
@@ -45,18 +47,19 @@ class ResultPage extends StatelessWidget {
             ),
             const SizedBox(height: 40.0),
             ElevatedButton(
-              onPressed: () {
-               Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => GamePage()), 
-      );
+              onPressed: () async {
+                await _incrementScore(score); 
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => GamePage()), 
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
               ),
-              child: const Text('Kembali ke Daftar Kuis', style: TextStyle(color: Colors.white,fontSize: 16.0)),
+              child: const Text('Kembali ke Daftar Kuis', style: TextStyle(color: Colors.white, fontSize: 16.0)),
             ),
           ],
         ),

@@ -30,7 +30,7 @@ class QuizSelectionPage extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => QuizPage(
                       quiz: quiz,
-                      username: 'user', // Kosongkan username jika tidak diperlukan
+                       // Kosongkan username jika tidak diperlukan
                     ),
                   ),
                 );
