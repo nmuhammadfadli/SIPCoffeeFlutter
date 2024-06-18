@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login_signup/screens/home/menu/gamification/list_quiz_page.dart';
+import 'package:login_signup/screens/home/menu/leaderboard.dart';
 import 'package:login_signup/services/database_game.dart';
 import 'package:login_signup/theme/new_theme.dart';
 import 'package:login_signup/widgets/gamification/stepper_list.dart';
@@ -80,10 +81,10 @@ class _GamePageState extends State<GamePage> {
             SizedBox(height: 60),
             GestureDetector(
               onTap: () async {
-                await _incrementScore(); // Increment score when this button is pressed
+                //await _incrementScore(); 
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ListQuizPage()),
+                  MaterialPageRoute(builder: (context) => LeaderboardPage()),
                 );
               },
               child: Container(
@@ -96,7 +97,7 @@ class _GamePageState extends State<GamePage> {
                 ),
                 child: Center(
                   child: Text(
-                    'Lewati Panduan',
+                    'Lihat LeaderBoard',
                     style: TextStyle(color: Colors.white, fontSize: 15),
                   ),
                 ),

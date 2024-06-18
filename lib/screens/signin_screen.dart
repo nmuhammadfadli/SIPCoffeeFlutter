@@ -81,6 +81,7 @@ class _SignInScreenState extends State<SignInScreen> {
               prefs.setString('userEmail', user.email);
               prefs.setString('userHandphone', user.nohp);
               prefs.setString('userAlamat', user.lokasi);
+              prefs.setString('role', user.role);
               
               
               await _saveCredentials();

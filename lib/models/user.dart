@@ -5,6 +5,7 @@ class User {
   final String pass;
   final String nohp;
   final String lokasi;
+  final String role;
 
   User({
     required this.user,
@@ -13,6 +14,7 @@ class User {
     required this.pass,
     required this.nohp,
     required this.lokasi,
+    required this.role,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class User {
       pass : json['pass'],
       nohp: json['nohp'],
       lokasi: json['lokasi'],
+      role: json['level'],
     );
   }
 }

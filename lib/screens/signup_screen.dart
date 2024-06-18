@@ -22,6 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late TextEditingController _passwordController;
   late TextEditingController _phoneController;
   late TextEditingController _addressController;
+  String? _selectedRole;
 
   @override
   void initState() {
@@ -59,16 +60,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'nohp': _phoneController.text,
         'pass': _passwordController.text,
         'lokasi': _addressController.text,
-        'level': 'Petani',
+        'level': _selectedRole ?? 'Petani', 
       }),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Sign up berhasil')),
       );
     } else {
-      // Jika respons gagal, tampilkan pesan kesalahan
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Data Berhasil Ditambah')),
       );
@@ -116,7 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(
                         height: 40.0,
                       ),
-                       TextFormField(
+                      TextFormField(
                         controller: _usernameController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -144,7 +144,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                       ),
-                     const SizedBox(height: 25.0), // full name
+                      const SizedBox(height: 25.0), // full name
                       TextFormField(
                         controller: _namaController,
                         validator: (value) {
@@ -302,6 +302,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(
                         height: 25.0,
                       ),
+                      DropdownButtonFormField<String>(
+                        value: _selectedRole,
+                        hint: Text('Pilih Role'),
+                        items: ['Mahasiswa', 'Petani']
+                            .map((role) => DropdownMenuItem<String>(
+                                  value: role,
+                                  child: Text(role),
+                                ))
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedRole = value;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.black12,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.black12,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 25.0,
+                      ),
                       // i agree to the processing
                       Row(
                         children: [
@@ -338,7 +370,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green, 
-                        ),
+                          ),
                           onPressed: () {
                             if (_formSignupKey.currentState!.validate() &&
                                 agreePersonalData) {

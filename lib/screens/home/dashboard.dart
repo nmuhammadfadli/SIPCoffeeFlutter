@@ -15,6 +15,7 @@ import 'package:login_signup/screens/home/menu/penjadwalan.dart';
 import 'package:login_signup/screens/home/menu/report.dart';
 import 'package:login_signup/screens/home/menu/notifikasi_page.dart';
 import 'package:login_signup/widgets/article_card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart'; 
 
 class DashboardPage extends StatefulWidget {
@@ -25,6 +26,21 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  String? role;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserRole();
+  }
+
+  Future<void> _loadUserRole() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      role = prefs.getString('role');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +68,6 @@ class _DashboardPageState extends State<DashboardPage> {
                       dotSize: 5,
                       indicatorBgPadding: 5.0,
                       boxFit: BoxFit.cover,
-          
                     ),
                   ),
                 ),
@@ -102,18 +117,18 @@ class _DashboardPageState extends State<DashboardPage> {
                         );
                       },
                     ),
-                    CustomButton(
-                      key: UniqueKey(),
-                      icon: CupertinoIcons.game_controller,
-                      text: 'Game',
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => GamePage()),
-                        );
-                        
-                      },
-                    ),
+                    if (role == 'Mahasiswa')
+                      CustomButton(
+                        key: UniqueKey(),
+                        icon: CupertinoIcons.game_controller,
+                        text: 'Game',
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => GamePage()),
+                          );
+                        },
+                      ),
                   ],
                 ),
                 SizedBox(height: 15),
@@ -129,19 +144,19 @@ class _DashboardPageState extends State<DashboardPage> {
                   },
                 ),
                 SizedBox(height: 10),
-                  CardsWidget(
+                CardsWidget(
                   key: UniqueKey(),
                   image: AssetImage('assets/images/whatsapp.png'),
                   text: "Hubungi Ahli",
-                 onPressed: () async {
-                  final url = Uri.parse('https://wa.me/6288803716911');
-                  if (await canLaunchUrl(url)){
-                    await launchUrl(url);
-                    print('Clicked');
-                  }
-                },
+                  onPressed: () async {
+                    final url = Uri.parse('https://wa.me/6288803716911');
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url);
+                      print('Clicked');
+                    }
+                  },
                 ),
-                 SizedBox(height: 10),
+                SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -154,9 +169,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                      
-                      },
+                      onTap: () {},
                       child: Text(
                         'Selengkapnya',
                         style: GoogleFonts.roboto(
