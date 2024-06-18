@@ -82,7 +82,7 @@ class _GamePembibitanState extends State<GamePembibitan> {
     setState(() {
       longitudeController.text = position.longitude.toString();
       latitudeController.text = position.latitude.toString();
-      ketinggianController.text = position.altitude.round().toString(); // Menghilangkan angka desimal
+      ketinggianController.text = position.altitude.round().toString();
     });
   }
 

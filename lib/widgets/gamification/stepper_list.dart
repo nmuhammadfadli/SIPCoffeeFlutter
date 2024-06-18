@@ -12,7 +12,9 @@ import 'package:login_signup/services/database_helper.dart';
 
 class StepStatus {
   bool isCompleted;
-  StepStatus({required this.isCompleted});
+  bool isLocked; // Tambahan untuk melacak apakah langkah terkunci
+
+  StepStatus({required this.isCompleted, required this.isLocked});
 }
 
 class StepperListView extends StatefulWidget {
@@ -25,19 +27,19 @@ class StepperListView extends StatefulWidget {
 class _StepperListViewState extends State<StepperListView> {
   Map<String, Map<String, StepStatus>> substepStatus = {
     'Pembibitan': {
-      'Panduan YouTube': StepStatus(isCompleted: false),
-      'Halaman Pembibitan': StepStatus(isCompleted: false),
-      'Halaman Quiz Post Test': StepStatus(isCompleted: false),
+      'Panduan YouTube': StepStatus(isCompleted: false, isLocked: false),
+      'Halaman Pembibitan': StepStatus(isCompleted: false, isLocked: true),
+      'Halaman Quiz Post Test': StepStatus(isCompleted: false, isLocked: true),
     },
     'Perawatan': {
-      'Panduan YouTube': StepStatus(isCompleted: false),
-      'Halaman Perawatan': StepStatus(isCompleted: false),
-      'Halaman Quiz Post Test': StepStatus(isCompleted: false),
+      'Panduan YouTube': StepStatus(isCompleted: false, isLocked: true),
+      'Halaman Perawatan': StepStatus(isCompleted: false, isLocked: true),
+      'Halaman Quiz Post Test': StepStatus(isCompleted: false, isLocked: true),
     },
     'Panen': {
-      'Panduan YouTube': StepStatus(isCompleted: false),
-      'Halaman Panen': StepStatus(isCompleted: false),
-      'Halaman Quiz Post Test': StepStatus(isCompleted: false),
+      'Panduan YouTube': StepStatus(isCompleted: false, isLocked: true),
+      'Halaman Panen': StepStatus(isCompleted: false, isLocked: true),
+      'Halaman Quiz Post Test': StepStatus(isCompleted: false, isLocked: true),
     },
   };
 
@@ -58,7 +60,39 @@ class _StepperListViewState extends State<StepperListView> {
     await dbHelper.updateScore(newScore);
   }
 
+  void _updateTaskCompletion(String title, String action) {
+    setState(() {
+      substepStatus[title]![action]!.isCompleted = true;
+
+      // Membuka tugas berikutnya dalam urutan
+      if (action == 'Panduan YouTube') {
+        substepStatus[title]!['Halaman Pembibitan']!.isLocked = false;
+      } else if (action == 'Halaman Pembibitan') {
+        substepStatus[title]!['Halaman Quiz Post Test']!.isLocked = false;
+      }
+
+      // Membuka langkah utama berikutnya jika semua sublangkah selesai
+      if (title == 'Pembibitan' &&
+          substepStatus[title]!.values.every((status) => status.isCompleted)) {
+        substepStatus['Perawatan']!['Panduan YouTube']!.isLocked = false;
+      } else if (title == 'Perawatan' &&
+          substepStatus[title]!.values.every((status) => status.isCompleted)) {
+        substepStatus['Panen']!['Panduan YouTube']!.isLocked = false;
+      }
+    });
+  }
+
   void _navigateToPage(String title, String action) {
+    if (substepStatus[title]![action]!.isLocked) {
+      _showAlert('Tugas Terkunci', 'Harap selesaikan tugas sebelumnya terlebih dahulu.');
+      return;
+    }
+
+    if (substepStatus[title]![action]!.isCompleted) {
+      _showAlert('Tugas Selesai', 'Tugas ini sudah selesai.');
+      return;
+    }
+
     Widget page;
     switch (title) {
       case 'Pembibitan':
@@ -95,6 +129,26 @@ class _StepperListViewState extends State<StepperListView> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => page),
+    );
+  }
+
+  void _showAlert(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -170,6 +224,8 @@ class _StepperListViewState extends State<StepperListView> {
   Widget _buildActionRow(
       String action, String title, Map<String, StepStatus> statusMap) {
     bool isCompleted = statusMap[action]!.isCompleted;
+    bool isLocked = statusMap[action]!.isLocked;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
       child: Row(
@@ -177,22 +233,32 @@ class _StepperListViewState extends State<StepperListView> {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                if (action == 'Panduan YouTube') {
-                  _launchYouTube();
+                if (isLocked) {
+                  _showAlert('Tugas Terkunci', 'Harap selesaikan tugas sebelumnya terlebih dahulu.');
+                } else if (isCompleted) {
+                  _showAlert('Tugas Selesai', 'Tugas ini sudah selesai.');
                 } else {
-                  _navigateToPage(title, action);
+                  if (action == 'Panduan YouTube') {
+                    _launchYouTube();
+                  } else {
+                    _navigateToPage(title, action);
+                  }
                 }
               },
-              child: Text(action),
+              child: Text(
+                action,
+                style: TextStyle(
+                  color: isLocked ? Colors.grey : Colors.black,
+                  decoration: isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
+                ),
+              ),
             ),
           ),
           ElevatedButton(
-            onPressed: isCompleted
+            onPressed: isCompleted || isLocked
                 ? null
                 : () {
-                    setState(() {
-                      statusMap[action]!.isCompleted = true;
-                    });
+                    _updateTaskCompletion(title, action);
                   },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(
