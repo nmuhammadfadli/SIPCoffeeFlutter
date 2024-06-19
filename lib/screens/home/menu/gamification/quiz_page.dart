@@ -50,20 +50,18 @@ class _QuizPageState extends State<QuizPage> {
   Widget build(BuildContext context) {
     final question = widget.quiz.questions[_currentQuestionIndex];
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.quiz.title, style: const TextStyle(color: Colors.white)),
-        backgroundColor: Colors.white,
-          automaticallyImplyLeading: false,
-      ),
+
+  SizedBox(height: 20);
+    return Scaffold(  
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            SizedBox(height: 40),
             Text(
               question.content,
-              style: const TextStyle(color: Colors.green, fontSize: 24.0, fontWeight: FontWeight.bold),
+              style: const TextStyle(color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20.0),
             ...question.options.map((option) => Container(

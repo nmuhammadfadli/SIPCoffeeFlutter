@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_signup/screens/home/menu/game.dart';
 import 'package:login_signup/services/database_game.dart';
+import 'package:login_signup/theme/new_theme.dart';
 
 class ResultPage extends StatelessWidget {
   final int score;
@@ -36,7 +37,7 @@ class ResultPage extends StatelessWidget {
           children: [
             Text(
               'Skor Anda: $multipliedScore', 
-              style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.green),
+              style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.white),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20.0),
@@ -55,7 +56,7 @@ class ResultPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
+                backgroundColor: greenLightColor,
                 padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
               ),

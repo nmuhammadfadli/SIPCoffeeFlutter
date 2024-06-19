@@ -51,11 +51,6 @@ class _QuizPanenState extends State<QuizPanen> {
     final question = widget.quiz.questions[_currentQuestionIndex];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.quiz.title, style: const TextStyle(color: Colors.white)),
-        backgroundColor: Colors.green,
-          automaticallyImplyLeading: false,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -63,7 +58,7 @@ class _QuizPanenState extends State<QuizPanen> {
           children: [
             Text(
               question.content,
-              style: const TextStyle(color: Colors.green, fontSize: 24.0, fontWeight: FontWeight.bold),
+              style: const TextStyle(color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20.0),
             ...question.options.map((option) => Container(

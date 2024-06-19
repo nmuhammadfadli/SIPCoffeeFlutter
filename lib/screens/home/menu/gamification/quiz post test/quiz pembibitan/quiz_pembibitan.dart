@@ -51,11 +51,6 @@ class _QuizPembibitanState extends State<QuizPembibitan> {
     final question = widget.quiz.questions[_currentQuestionIndex];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.quiz.title, style: const TextStyle(color: Colors.white)),
-        backgroundColor: Colors.green,
-          automaticallyImplyLeading: false,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
