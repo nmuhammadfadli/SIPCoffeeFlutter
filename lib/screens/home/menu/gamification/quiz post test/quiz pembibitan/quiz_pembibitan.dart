@@ -63,7 +63,7 @@ class _QuizPembibitanState extends State<QuizPembibitan> {
           children: [
             Text(
               question.content,
-              style: const TextStyle(color: Colors.green, fontSize: 24.0, fontWeight: FontWeight.bold),
+              style: const TextStyle(color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20.0),
             ...question.options.map((option) => Container(

@@ -32,12 +32,29 @@ class _GamePembibitanState extends State<GamePembibitan> {
     _getCurrentLocation();
   }
 
+  @override
+  void dispose() {
+    // Pastikan untuk membersihkan controller saat dispose
+    lokasiController.dispose();
+    pemilikController.dispose();
+    varietasController.dispose();
+    ketinggianController.dispose();
+    jumlahBibitController.dispose();
+    tanggalController.dispose();
+    luasLahanController.dispose();
+    longitudeController.dispose();
+    latitudeController.dispose();
+    super.dispose();
+  }
+
   Future<void> _loadUserName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userName = prefs.getString('userNickName') ?? 'User';
-    setState(() {
-      pemilikController.text = userName;
-    });
+    if (mounted) {
+      setState(() {
+        pemilikController.text = userName;
+      });
+    }
   }
 
   Future<void> _getCurrentLocation() async {
@@ -79,11 +96,13 @@ class _GamePembibitanState extends State<GamePembibitan> {
 
     Position position = await Geolocator.getCurrentPosition();
 
-    setState(() {
-      longitudeController.text = position.longitude.toString();
-      latitudeController.text = position.latitude.toString();
-      ketinggianController.text = position.altitude.round().toString();
-    });
+    if (mounted) {
+      setState(() {
+        longitudeController.text = position.longitude.toString();
+        latitudeController.text = position.latitude.toString();
+        ketinggianController.text = position.altitude.round().toString();
+      });
+    }
   }
 
   void _launchMaps() async {
@@ -210,11 +229,10 @@ class _GamePembibitanState extends State<GamePembibitan> {
                 onPressed: () {
                   if (_validateInputs()) {
                     _incrementScore();
-                     Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => GamePage()),
-                        );
-                   // _saveData();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => GamePage()),
+                    );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

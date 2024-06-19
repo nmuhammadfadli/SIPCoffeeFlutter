@@ -53,7 +53,7 @@ class _QuizPageState extends State<QuizPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.quiz.title, style: const TextStyle(color: Colors.white)),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
       ),
       body: Padding(

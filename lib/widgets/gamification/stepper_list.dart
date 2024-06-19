@@ -99,6 +99,7 @@ class _StepperListViewState extends State<StepperListView> {
             }
           }
 
+          // Pastikan Panduan YouTube Perawatan tidak terkunci setelah menyelesaikan semua tugas Pembibitan
           if (title == 'Pembibitan' && statusMap.values.every((status) => status.isCompleted)) {
             final nextTitleStatus = substepStatus!['Perawatan'];
             if (nextTitleStatus != null) {
