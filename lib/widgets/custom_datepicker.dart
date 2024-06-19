@@ -24,17 +24,17 @@ class CustomDatePickerField extends StatelessWidget {
         labelText: labelText,
         hintText: hintText,
         hintStyle: const TextStyle(
-          color: Colors.black26,
+          color: Colors.white,
         ),
         border: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Colors.black12,
+            color: Colors.white,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Colors.black12,
+            color: Colors.white,
           ),
           borderRadius: BorderRadius.circular(10),
         ),

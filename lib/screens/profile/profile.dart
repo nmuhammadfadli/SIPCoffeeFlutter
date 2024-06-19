@@ -41,11 +41,11 @@ class _ProfilePageState extends State<ProfilePage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text('Batal'),
+            child: Text('Batal', style: TextStyle(color: Colors.white),),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text('Ya'),
+            child: Text('Ya',style: TextStyle(color: Colors.white),),
           ),
         ],
       ),
@@ -97,18 +97,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 readOnly: true,
                 decoration: InputDecoration(
                   label: const Text('Nama Lengkap'),
+                   labelStyle: TextStyle(color: Colors.white),
                   hintStyle: const TextStyle(
-                    color: Colors.black26,
+                    color: Colors.white,
                   ),
                   border: OutlineInputBorder(
                     borderSide: const BorderSide(
-                      color: Colors.black12,
+                      color: Colors.white,
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
-                      color: Colors.black12,
+                      color: Colors.white,
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -120,18 +121,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 readOnly: true,
                 decoration: InputDecoration(
                   label: const Text('Username'),
+                  labelStyle: TextStyle(color: Colors.white),
                   hintStyle: const TextStyle(
-                    color: Colors.black26,
+                    color: Colors.white,
                   ),
                   border: OutlineInputBorder(
                     borderSide: const BorderSide(
-                      color: Colors.black12,
+                      color: Colors.white,
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
-                      color: Colors.black12,
+                      color: Colors.white,
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -143,18 +145,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 readOnly: true,
                 decoration: InputDecoration(
                   label: const Text('Email'),
+                   labelStyle: TextStyle(color: Colors.white),
                   hintStyle: const TextStyle(
-                    color: Colors.black26,
+                    color: Colors.white,
                   ),
                   border: OutlineInputBorder(
                     borderSide: const BorderSide(
-                      color: Colors.black12,
+                      color: Colors.white,
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
-                      color: Colors.black12,
+                      color: Colors.white,
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -165,19 +168,20 @@ class _ProfilePageState extends State<ProfilePage> {
                 controller: handphoneController,
                 readOnly: true,
                 decoration: InputDecoration(
-                  label: const Text('Nomor Handphone'),
+                  label: const Text('Nomor Handphone',style: TextStyle(color: Colors.white),),
+                  labelStyle: TextStyle(color: Colors.white),
                   hintStyle: const TextStyle(
-                    color: Colors.black26,
+                    color: Colors.white,
                   ),
                   border: OutlineInputBorder(
                     borderSide: const BorderSide(
-                      color: Colors.black12,
+                      color: Colors.white,
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
-                      color: Colors.black12,
+                      color: Colors.white,
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -189,18 +193,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 readOnly: true,
                 decoration: InputDecoration(
                   label: const Text('Alamat'),
+                  labelStyle: TextStyle(color: Colors.white),
                   hintStyle: const TextStyle(
-                    color: Colors.black26,
+                    color: Colors.white,
                   ),
                   border: OutlineInputBorder(
                     borderSide: const BorderSide(
-                      color: Colors.black12,
+                      color: Colors.white,
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
-                      color: Colors.black12,
+                      color: Colors.white,
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),

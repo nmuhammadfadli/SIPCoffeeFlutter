@@ -222,7 +222,7 @@ class _ProductPageState extends State<ProductPage> {
                   ],
                 ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
+        backgroundColor: greenLightColor,
         onPressed: () {
           Navigator.push(
             context,

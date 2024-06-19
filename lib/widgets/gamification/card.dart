@@ -58,7 +58,7 @@ class _AvatarCardState extends State<AvatarCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Salma',
+                'Rizky',
                 style: BlackRubikTextStyle.copyWith(
                     fontWeight: medium, fontSize: 16),
               ),

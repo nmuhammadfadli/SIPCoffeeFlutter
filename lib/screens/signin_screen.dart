@@ -9,6 +9,7 @@ import 'package:login_signup/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../theme/theme.dart';
+import '../theme/new_theme.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -155,8 +156,8 @@ class _SignInScreenState extends State<SignInScreen> {
             flex: 7,
             child: Container(
               padding: const EdgeInsets.fromLTRB(25.0, 50.0, 25.0, 20.0),
-              decoration: const BoxDecoration(
-                color: Colors.white,
+              decoration: BoxDecoration(
+                color: greenBackgroundColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40.0),
                   topRight: Radius.circular(40.0),
@@ -170,11 +171,9 @@ class _SignInScreenState extends State<SignInScreen> {
                     children: [
                       Text(
                         'Selamat Datang',
-                        style: TextStyle(
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.green,
-                        ),
+                        style: 
+                           WhiteRubikTextStyle.copyWith(fontWeight: FontWeight.w900, fontSize: 30.0),
+                        
                       ),
                       const SizedBox(
                         height: 40.0,
@@ -191,17 +190,17 @@ class _SignInScreenState extends State<SignInScreen> {
                           label: const Text('Email'),
                           hintText: 'Isikan Email Anda',
                           hintStyle: const TextStyle(
-                            color: Colors.black26,
+                            color: Colors.white,
                           ),
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -224,17 +223,17 @@ class _SignInScreenState extends State<SignInScreen> {
                           label: const Text('Password'),
                           hintText: 'Isikan Password Anda',
                           hintStyle: const TextStyle(
-                            color: Colors.black26,
+                            color: Colors.white,
                           ),
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -256,12 +255,12 @@ class _SignInScreenState extends State<SignInScreen> {
                                       _saveCredentials(); 
                                     });
                                   },
-                                  activeColor: Colors.green,
+                                  activeColor: greenLightColor,
                                 ),
                               const Text(
                                 'Simpan Email',
                                 style: TextStyle(
-                                  color: Colors.black45,
+                                  color: Colors.white,
                                 ),
                               ),
                             ],
@@ -277,7 +276,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               'Lupa password?',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.green,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -297,7 +296,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           },
                           child: const Text('Sign In'),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
+                            backgroundColor: greenLightColor,
                           ),
                         ),
                       ),
@@ -316,7 +315,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           const Text(
                             'Tidak Memiliki Akun? ',
                             style: TextStyle(
-                              color: Colors.black45,
+                              color: Colors.white,
                             ),
                           ),
                           GestureDetector(
@@ -332,7 +331,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               'Sign up',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.green,
+                                color: Colors.white,
                               ),
                             ),
                           ),

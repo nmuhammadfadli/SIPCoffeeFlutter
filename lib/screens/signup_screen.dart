@@ -5,6 +5,7 @@ import 'package:login_signup/theme/theme.dart';
 import 'package:login_signup/widgets/custom_scaffold.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../theme/new_theme.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -90,8 +91,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             flex: 7,
             child: Container(
               padding: const EdgeInsets.fromLTRB(25.0, 50.0, 25.0, 20.0),
-              decoration: const BoxDecoration(
-                color: Colors.white,
+              decoration: BoxDecoration(
+                color:  greenBackgroundColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40.0),
                   topRight: Radius.circular(40.0),
@@ -107,11 +108,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       // get started text
                       Text(
                         'Mari Mulai',
-                        style: TextStyle(
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.green,
-                        ),
+                        style:  WhiteRubikTextStyle.copyWith(fontWeight: FontWeight.w900, fontSize: 30.0),
+                        
                       ),
                       const SizedBox(
                         height: 40.0,
@@ -128,17 +126,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           label: const Text('Username'),
                           hintText: 'Isikan Username',
                           hintStyle: const TextStyle(
-                            color: Colors.black26,
+                            color: Colors.white,
                           ),
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -157,17 +155,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           label: const Text('Nama Lengkap'),
                           hintText: 'Isikan Nama Lengkap',
                           hintStyle: const TextStyle(
-                            color: Colors.black26,
+                            color: Colors.white,
                           ),
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -188,17 +186,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           label: const Text('Email'),
                           hintText: 'Isikan Email',
                           hintStyle: const TextStyle(
-                            color: Colors.black26,
+                            color: Colors.white,
                           ),
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -221,17 +219,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           label: const Text('Password'),
                           hintText: 'Isikan Password',
                           hintStyle: const TextStyle(
-                            color: Colors.black26,
+                            color: Colors.white,
                           ),
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -252,17 +250,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           label: const Text('Nomor Handphone'),
                           hintText: 'Isikan Nomor Handphone',
                           hintStyle: const TextStyle(
-                            color: Colors.black26,
+                            color: Colors.white,
                           ),
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -283,17 +281,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           label: const Text('Alamat'),
                           hintText: 'Isikan Alamat',
                           hintStyle: const TextStyle(
-                            color: Colors.black26,
+                            color: Colors.white,
                           ),
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -319,13 +317,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.black12,
+                              color: Colors.white,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -344,19 +342,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 agreePersonalData = value!;
                               });
                             },
-                            activeColor: Colors.green,
+                            activeColor: greenLightColor,
                           ),
                           const Text(
                             'Saya Setuju untuk Memproses ',
                             style: TextStyle(
-                              color: Colors.black45,
+                              color: Colors.white,
                             ),
                           ),
                           Text(
                             'Data Pribadi',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.green,
+                              color: Colors.white,
                             ),
                           ),
                         ],
@@ -369,7 +367,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green, 
+                            backgroundColor: greenLightColor, 
                           ),
                           onPressed: () {
                             if (_formSignupKey.currentState!.validate() &&
@@ -402,7 +400,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           const Text(
                             'Sudah Memiliki Akun? ',
                             style: TextStyle(
-                              color: Colors.black45,
+                              color: Colors.white,
                             ),
                           ),
                           GestureDetector(
@@ -418,7 +416,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               'Sign in',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.green,
+                                color: Colors.white,
                               ),
                             ),
                           ),

@@ -17,23 +17,7 @@ class StepperListView extends StatefulWidget {
 }
 
 class _StepperListViewState extends State<StepperListView> {
-  Map<String, Map<String, StepStatus>> substepStatus = {
-    'Pembibitan': {
-      'Panduan YouTube': StepStatus(isCompleted: false, isLocked: false),
-      'Halaman Pembibitan': StepStatus(isCompleted: false, isLocked: true),
-      'Halaman Quiz Post Test': StepStatus(isCompleted: false, isLocked: true),
-    },
-    'Perawatan': {
-      'Panduan YouTube': StepStatus(isCompleted: false, isLocked: true),
-      'Halaman Perawatan': StepStatus(isCompleted: false, isLocked: true),
-      'Halaman Quiz Post Test': StepStatus(isCompleted: false, isLocked: true),
-    },
-    'Panen': {
-      'Panduan YouTube': StepStatus(isCompleted: false, isLocked: true),
-      'Halaman Panen': StepStatus(isCompleted: false, isLocked: true),
-      'Halaman Quiz Post Test': StepStatus(isCompleted: false, isLocked: true),
-    },
-  };
+  Map<String, Map<String, StepStatus>>? substepStatus;
 
   Map<String, String> youtubeUrls = {
     'Pembibitan': 'https://youtu.be/NI0ppqgeXVY?si=yIpzeRxQl67oGgIk',
@@ -48,7 +32,26 @@ class _StepperListViewState extends State<StepperListView> {
   }
 
   Future<void> _loadStepStatuses() async {
-    substepStatus = await GameHelper.instance.fetchStepStatuses() ?? substepStatus;
+    substepStatus = await GameHelper.instance.fetchStepStatuses();
+    if (substepStatus == null) {
+      substepStatus = {
+        'Pembibitan': {
+          'Panduan YouTube Pembibitan': StepStatus(isCompleted: false, isLocked: false),
+          'Halaman Pembibitan': StepStatus(isCompleted: false, isLocked: true),
+          'Quiz Post Test Pembibitan': StepStatus(isCompleted: false, isLocked: true),
+        },
+        'Perawatan': {
+          'Panduan YouTube Perawatan': StepStatus(isCompleted: false, isLocked: true),
+          'Halaman Perawatan': StepStatus(isCompleted: false, isLocked: true),
+          'Quiz Post Test Perawatan': StepStatus(isCompleted: false, isLocked: true),
+        },
+        'Panen': {
+          'Panduan YouTube Panen': StepStatus(isCompleted: false, isLocked: true),
+          'Halaman Panen': StepStatus(isCompleted: false, isLocked: true),
+          'Quiz Post Test Panen': StepStatus(isCompleted: false, isLocked: true),
+        },
+      };
+    }
     setState(() {});
   }
 
@@ -75,43 +78,43 @@ class _StepperListViewState extends State<StepperListView> {
 
   void _updateTaskCompletion(String title, String action) {
     setState(() {
-      final statusMap = substepStatus[title];
+      final statusMap = substepStatus![title];
       if (statusMap != null) {
         final status = statusMap[action];
         if (status != null) {
           status.isCompleted = true;
           _updateStepStatus(title, action, status);
 
-          if (action == 'Panduan YouTube') {
+          if (action == 'Panduan YouTube Pembibitan') {
             final nextStatus = statusMap['Halaman Pembibitan'];
             if (nextStatus != null) {
               nextStatus.isLocked = false;
               _updateStepStatus(title, 'Halaman Pembibitan', nextStatus);
             }
           } else if (action == 'Halaman Pembibitan') {
-            final nextStatus = statusMap['Halaman Quiz Post Test'];
+            final nextStatus = statusMap['Quiz Post Test Pembibitan'];
             if (nextStatus != null) {
               nextStatus.isLocked = false;
-              _updateStepStatus(title, 'Halaman Quiz Post Test', nextStatus);
+              _updateStepStatus(title, 'Quiz Post Test Pembibitan', nextStatus);
             }
           }
 
           if (title == 'Pembibitan' && statusMap.values.every((status) => status.isCompleted)) {
-            final nextTitleStatus = substepStatus['Perawatan'];
+            final nextTitleStatus = substepStatus!['Perawatan'];
             if (nextTitleStatus != null) {
-              final nextActionStatus = nextTitleStatus['Panduan YouTube'];
+              final nextActionStatus = nextTitleStatus['Panduan YouTube Perawatan'];
               if (nextActionStatus != null) {
                 nextActionStatus.isLocked = false;
-                _updateStepStatus('Perawatan', 'Panduan YouTube', nextActionStatus);
+                _updateStepStatus('Perawatan', 'Panduan YouTube Perawatan', nextActionStatus);
               }
             }
           } else if (title == 'Perawatan' && statusMap.values.every((status) => status.isCompleted)) {
-            final nextTitleStatus = substepStatus['Panen'];
+            final nextTitleStatus = substepStatus!['Panen'];
             if (nextTitleStatus != null) {
-              final nextActionStatus = nextTitleStatus['Panduan YouTube'];
+              final nextActionStatus = nextTitleStatus['Panduan YouTube Panen'];
               if (nextActionStatus != null) {
                 nextActionStatus.isLocked = false;
-                _updateStepStatus('Panen', 'Panduan YouTube', nextActionStatus);
+                _updateStepStatus('Panen', 'Panduan YouTube Panen', nextActionStatus);
               }
             }
           }
@@ -121,7 +124,7 @@ class _StepperListViewState extends State<StepperListView> {
   }
 
   void _navigateToPage(String title, String action) {
-    final statusMap = substepStatus[title];
+    final statusMap = substepStatus?[title];
     if (statusMap == null || statusMap[action] == null) return;
 
     if (statusMap[action]!.isLocked) {
@@ -139,7 +142,7 @@ class _StepperListViewState extends State<StepperListView> {
       case 'Pembibitan':
         if (action == 'Halaman Pembibitan') {
           page = GamePembibitan();
-        } else if (action == 'Halaman Quiz Post Test') {
+        } else if (action == 'Quiz Post Test Pembibitan') {
           page = QuizSelectionPage();
         } else {
           return;
@@ -148,7 +151,7 @@ class _StepperListViewState extends State<StepperListView> {
       case 'Perawatan':
         if (action == 'Halaman Perawatan') {
           page = GamePerawatan();
-        } else if (action == 'Halaman Quiz Post Test') {
+        } else if (action == 'Quiz Post Test Perawatan') {
           page = QuizSelectionPage();
         } else {
           return;
@@ -157,7 +160,7 @@ class _StepperListViewState extends State<StepperListView> {
       case 'Panen':
         if (action == 'Halaman Panen') {
           page = GamePanen();
-        } else if (action == 'Halaman Quiz Post Test') {
+        } else if (action == 'Quiz Post Test Panen') {
           page = QuizSelectionPage();
         } else {
           return;
@@ -197,10 +200,14 @@ class _StepperListViewState extends State<StepperListView> {
 
   @override
   Widget build(BuildContext context) {
+    if (substepStatus == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+
     return ListView.builder(
-      itemCount: substepStatus.length,
+      itemCount: substepStatus!.length,
       itemBuilder: (context, index) {
-        String title = substepStatus.keys.elementAt(index);
+        String title = substepStatus!.keys.elementAt(index);
         return Column(
           children: [
             Card(
@@ -214,19 +221,57 @@ class _StepperListViewState extends State<StepperListView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildActionRow('Panduan YouTube', title, substepStatus[title]!),
-                        _buildActionRow('Halaman $title', title, substepStatus[title]!),
-                        _buildActionRow('Halaman Quiz Post Test', title, substepStatus[title]!),
+                        _buildActionRow('Panduan YouTube $title', title, substepStatus![title]!),
+                        _buildActionRow('Halaman $title', title, substepStatus![title]!),
+                        _buildActionRow('Quiz Post Test $title', title, substepStatus![title]!),
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-            if (index != substepStatus.length - 1)
-              CustomPaint(
-                painter: _LinePainter(),
-                child: SizedBox(height: 24),
+            if (index != substepStatus!.length - 1)
+              Column(
+                children: [
+                  SizedBox(height: 8),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      children: [
+                        Column(
+                          children: [
+                            SizedBox(height: 8),
+                            for (int i = 0; i < 24; i++) // Adjust the number of dots here
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Container(
+                                  width: 4,
+                                  height: 4,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                        SizedBox(width: 28),
+                        Column(
+                          children: [
+                            Container(
+                              width: 8,
+                              height: 8,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.brown,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
           ],
         );
@@ -237,19 +282,12 @@ class _StepperListViewState extends State<StepperListView> {
   Widget _buildStepItem(String title, IconData iconData) {
     return Row(
       children: [
-        Container(
-          padding: EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: greenLightColor,
-          ),
-          child: Icon(iconData, color: greenLightColor),
-        ),
-        SizedBox(width: 16),
+        Icon(iconData, color: Colors.brown, size: 40),
+        SizedBox(width: 8),
         Expanded(
           child: Text(
             title,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
       ],
@@ -257,74 +295,53 @@ class _StepperListViewState extends State<StepperListView> {
   }
 
   Widget _buildActionRow(String action, String title, Map<String, StepStatus> statusMap) {
-    bool isCompleted = statusMap[action]?.isCompleted ?? false;
-    bool isLocked = statusMap[action]?.isLocked ?? true;
+    final status = statusMap[action];
+    if (status == null) {
+      return SizedBox();
+    }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                if (isLocked) {
-                  _showAlert('Tugas Terkunci', 'Harap selesaikan tugas sebelumnya terlebih dahulu.');
-                } else if (isCompleted) {
-                  _showAlert('Tugas Selesai', 'Tugas ini sudah selesai.');
-                } else {
-                  if (action == 'Panduan YouTube') {
-                    _launchYouTube(title);
-                  } else {
-                    _navigateToPage(title, action);
-                  }
-                }
-              },
+    IconData actionIcon;
+    if (action.startsWith('Panduan YouTube')) {
+      actionIcon = Icons.play_circle_outline;
+    } else if (action.startsWith('Halaman')) {
+      actionIcon = Icons.book_outlined;
+    } else {
+      actionIcon = Icons.quiz_outlined;
+    }
+
+    return GestureDetector(
+      onTap: () {
+        if (action.startsWith('Panduan YouTube')) {
+          _launchYouTube(title).then((_) {
+            _updateTaskCompletion(title, action);
+          });
+        } else {
+          _navigateToPage(title, action);
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: [
+            Icon(actionIcon, color: status.isLocked ? Colors.grey : Colors.brown),
+            SizedBox(width: 8),
+            Expanded(
               child: Text(
                 action,
                 style: TextStyle(
-                  color: isLocked ? Colors.grey : Colors.black,
-                  decoration: isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
+                  fontSize: 16,
+                  color: status.isLocked ? Colors.grey : Colors.black,
+                  fontWeight: status.isCompleted ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: isCompleted || isLocked
-                ? null
-                : () {
-                    _updateTaskCompletion(title, action);
-                  },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(
-                isCompleted ? greenLightColor : Colors.blue,
-              ),
+            Icon(
+              status.isCompleted ? Icons.check_circle_outline : Icons.radio_button_unchecked,
+              color: status.isCompleted ? Colors.green : Colors.grey,
             ),
-            child: Text(
-              isCompleted ? 'Selesai Dilakukan' : 'Lakukan +10 Poin',
-              style: TextStyle(fontSize: 12.0),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
-}
-
-class _LinePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
-      ..color = Colors.white
-      ..strokeWidth = 2
-      ..strokeCap = StrokeCap.round;
-
-    canvas.drawLine(
-      Offset(size.width / 2, 0),
-      Offset(size.width / 2, size.height),
-      paint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

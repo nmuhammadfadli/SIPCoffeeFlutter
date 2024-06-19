@@ -19,7 +19,7 @@ class _CuacaPageState extends State<CuacaPage> {
   void initState() {
     super.initState();
 
-    _wf.currentWeatherByCityName("Bondowoso").then((w) {
+    _wf.currentWeatherByCityName("Malang").then((w) {
       setState(() {
         _weather = w;
       });
@@ -39,6 +39,7 @@ class _CuacaPageState extends State<CuacaPage> {
     if (_weather == null) {
       return const Center(
         child: CircularProgressIndicator(),
+        
       );
     }
     return SizedBox(

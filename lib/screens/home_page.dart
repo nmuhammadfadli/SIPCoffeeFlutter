@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     DashboardPage(),
-    Scan(),
+    ProductPage(),
     PencatatanPage(),
     QrcodePage(),
     ProfilePage(),

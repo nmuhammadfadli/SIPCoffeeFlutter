@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:login_signup/theme/new_theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final Map<String, dynamic> product;
@@ -9,7 +12,7 @@ class ProductDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Detail Produk"),
+        title: Text("Detail Produk", style: TextStyle(color: greenLightColor, fontFamily: "Roboto", fontWeight: FontWeight.w800),),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -51,7 +54,7 @@ class ProductDetailPage extends StatelessWidget {
                   children: [
                     Text(
                       'Kode Kopi: ${product['kode_kopi']}',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Roboto'),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Roboto', color: Colors.white),
                     ),
                     _buildDetailItem(Icons.category, 'Varietas Kopi:', product['varietas_kopi']),
                     _buildDetailItem(Icons.settings, 'Metode Pengolahan:', product['metode_pengolahan']),
@@ -59,9 +62,25 @@ class ProductDetailPage extends StatelessWidget {
                     _buildDetailItem(Icons.date_range, 'Tanggal Panen:', product['tgl_panen']),
                     _buildDetailItem(Icons.date_range, 'Tanggal Exp:', product['tgl_exp']),
                     _buildDetailItem(Icons.line_weight, 'Berat:', product['berat'].toString()),
-                    _buildDetailItem(Icons.link, 'Link:', product['link']),
                     _buildDetailItem(Icons.description, 'Deskripsi:', product['deskripsi']),
                     _buildDetailItem(Icons.inventory, 'Stok:', product['stok'] != null ? product['stok'].toString() : 'Tidak ada data'),
+                    SizedBox(height: 16.0),
+                    Center(
+                      child: ElevatedButton(
+                         style: ElevatedButton.styleFrom(
+                backgroundColor: greenLightColor,
+              ),
+                        onPressed: () async {
+                          final url = product['link'];
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
+                        },
+                        child: Text('Buka Link Produk'),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -78,7 +97,7 @@ class ProductDetailPage extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: Colors.green),
+          Icon(icon, color: Colors.white),
           SizedBox(width: 8),
           Expanded(
             child: Column(
@@ -86,12 +105,12 @@ class ProductDetailPage extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.bold),
+                  style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 SizedBox(height: 4),
                 Text(
                   value,
-                  style: TextStyle(fontFamily: 'Roboto'),
+                  style: TextStyle(fontFamily: 'Roboto', color: Colors.white),
                 ),
               ],
             ),

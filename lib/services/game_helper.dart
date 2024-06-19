@@ -42,19 +42,19 @@ class GameHelper {
 
     Map<String, Map<String, StepStatus>> stepStatuses = {
       'Pembibitan': {
-        'Panduan YouTube': StepStatus(isCompleted: false, isLocked: false),
+        'Panduan YouTube Pembibitan': StepStatus(isCompleted: false, isLocked: false),
         'Halaman Pembibitan': StepStatus(isCompleted: false, isLocked: true),
-        'Halaman Quiz Post Test': StepStatus(isCompleted: false, isLocked: true),
+        'Quiz Post Test Pembibitan': StepStatus(isCompleted: false, isLocked: true),
       },
       'Perawatan': {
-        'Panduan YouTube': StepStatus(isCompleted: false, isLocked: true),
+        'Panduan YouTube Perawatan': StepStatus(isCompleted: false, isLocked: true),
         'Halaman Perawatan': StepStatus(isCompleted: false, isLocked: true),
-        'Halaman Quiz Post Test': StepStatus(isCompleted: false, isLocked: true),
+        'Quiz Post Test Perawatan': StepStatus(isCompleted: false, isLocked: true),
       },
       'Panen': {
-        'Panduan YouTube': StepStatus(isCompleted: false, isLocked: true),
+        'Panduan YouTube Panen': StepStatus(isCompleted: false, isLocked: true),
         'Halaman Panen': StepStatus(isCompleted: false, isLocked: true),
-        'Halaman Quiz Post Test': StepStatus(isCompleted: false, isLocked: true),
+        'Quiz Post Test Panen': StepStatus(isCompleted: false, isLocked: true),
       },
     };
 
@@ -91,4 +91,18 @@ class StepStatus {
   bool isLocked;
 
   StepStatus({required this.isCompleted, required this.isLocked});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'isCompleted': isCompleted ? 1 : 0,
+      'isLocked': isLocked ? 1 : 0,
+    };
+  }
+
+  factory StepStatus.fromMap(Map<String, dynamic> map) {
+    return StepStatus(
+      isCompleted: map['isCompleted'] == 1,
+      isLocked: map['isLocked'] == 1,
+    );
+  }
 }

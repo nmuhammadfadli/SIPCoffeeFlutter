@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_signup/screens/home/dashboard.dart';
 import 'package:login_signup/screens/home/menu/gamification/list_quiz_page.dart';
 import 'package:login_signup/screens/home/menu/leaderboard.dart';
 import 'package:login_signup/services/database_game.dart';
@@ -56,7 +57,10 @@ class _GamePageState extends State<GamePage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: whiteBackgroundColor),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DashboardPage()),
+                );
           },
         ),
         actions: [
