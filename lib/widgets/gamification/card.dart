@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:login_signup/theme/new_theme.dart';
 import 'package:login_signup/widgets/gamification/avatar.dart';
 
-class AvatarCard extends StatefulWidget {
-  const AvatarCard({super.key});
+class AvatarCard extends StatelessWidget {
+  final String name;
+  final String score;
+  final int rank;
+  final int avatarNumber;
 
-  @override
-  State<AvatarCard> createState() => _AvatarCardState();
-}
+  const AvatarCard({
+    super.key,
+    required this.name,
+    required this.score,
+    required this.rank,
+    required this.avatarNumber,
+  });
 
-class _AvatarCardState extends State<AvatarCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,7 +44,8 @@ class _AvatarCardState extends State<AvatarCard> {
             ),
             child: Center(
               child: Text(
-                '4',
+                rank.toString(),
+                 overflow: TextOverflow.ellipsis,
                 style: GreenRubikTextStyle.copyWith(
                   fontWeight: medium,
                   fontSize: 12,
@@ -49,7 +56,7 @@ class _AvatarCardState extends State<AvatarCard> {
           SizedBox(
             width: 2,
           ),
-          AvatarProfile(numberAvatar: 1),
+          AvatarProfile(numberAvatar: avatarNumber),
           SizedBox(
             width: 2,
           ),
@@ -58,7 +65,7 @@ class _AvatarCardState extends State<AvatarCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Rizky',
+                name,
                 style: BlackRubikTextStyle.copyWith(
                     fontWeight: medium, fontSize: 16),
               ),
@@ -66,7 +73,7 @@ class _AvatarCardState extends State<AvatarCard> {
                 height: 5,
               ),
               Text(
-                '590 Poin',
+                '$score Poin',
                 style: GreyRubikTextStyle.copyWith(fontSize: 14),
               ),
             ],
@@ -77,14 +84,18 @@ class _AvatarCardState extends State<AvatarCard> {
   }
 }
 
-class AvatarNonCard extends StatefulWidget {
-  const AvatarNonCard({super.key});
+class AvatarNonCard extends StatelessWidget {
+  final String name;
+  final String score;
+  final int avatarNumber;
 
-  @override
-  State<AvatarNonCard> createState() => _AvatarNonCardState();
-}
+  const AvatarNonCard({
+    super.key,
+    required this.name,
+    required this.score,
+    required this.avatarNumber,
+  });
 
-class _AvatarNonCardState extends State<AvatarNonCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -104,7 +115,7 @@ class _AvatarNonCardState extends State<AvatarNonCard> {
           SizedBox(
             width: 2,
           ),
-          AvatarProfile(numberAvatar: 1),
+          AvatarProfile(numberAvatar: avatarNumber),
           SizedBox(
             width: 10,
           ),
@@ -113,7 +124,7 @@ class _AvatarNonCardState extends State<AvatarNonCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Salma',
+                name,
                 style: BlackRubikTextStyle.copyWith(
                     fontWeight: medium, fontSize: 16),
               ),
@@ -121,7 +132,7 @@ class _AvatarNonCardState extends State<AvatarNonCard> {
                 height: 5,
               ),
               Text(
-                '590 Poin',
+                '$score Poin',
                 style: GreyRubikTextStyle.copyWith(fontSize: 14),
               ),
             ],

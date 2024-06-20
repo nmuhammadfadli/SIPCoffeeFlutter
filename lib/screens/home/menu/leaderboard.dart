@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:http/http.dart' as http;
 import 'package:login_signup/theme/new_theme.dart';
 import 'package:login_signup/widgets/gamification/avatar.dart';
-import 'package:login_signup/widgets/gamification/card.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:login_signup/widgets/gamification/card.dart';
 
 class LeaderboardPage extends StatefulWidget {
   const LeaderboardPage({super.key});
@@ -14,6 +15,42 @@ class LeaderboardPage extends StatefulWidget {
 
 class _LeaderboardPageState extends State<LeaderboardPage> {
   bool isMingguan = true;
+  List<dynamic> leaderboardData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchLeaderboardData();
+  }
+
+  Future<void> fetchLeaderboardData() async {
+    final response = await http.get(Uri.parse('https://gamifytrace.my.id/api/result'));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+
+      // Pastikan data yang diterima adalah Map dan memiliki kunci "Data Result"
+      if (data is Map && data.containsKey("Data Result")) {
+        final results = data["Data Result"];
+        
+        // Pastikan "Data Result" adalah List
+        if (results is List) {
+          setState(() {
+            leaderboardData = results.take(3).toList(); // Ambil maksimal 3 data
+          });
+        } else {
+          // Handle the case where "Data Result" is not a List
+          throw Exception('Data Result format is not correct');
+        }
+      } else {
+        // Handle the case where data is not a Map or doesn't contain "Data Result"
+        throw Exception('Data format is not correct');
+      }
+    } else {
+      // Handle error
+      throw Exception('Failed to load leaderboard data');
+    }
+  }
 
   void toggleCategorize() {
     setState(() {
@@ -73,10 +110,16 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
           ),
           ListView.builder(
             physics: NeverScrollableScrollPhysics(),
-            itemCount: 4,
+            itemCount: leaderboardData.length,
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              return AvatarCard();
+              final user = leaderboardData[index];
+              return AvatarCard(
+                name: user['user'], // Sesuaikan dengan field dari API
+                score: user['skor'].toString(), // Sesuaikan dengan field dari API
+                rank: index + 1, // Rank berdasarkan urutan
+                avatarNumber: index + 1, // Avatar number based on rank
+              );
             },
           ),
         ],
@@ -197,7 +240,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
             ),
             child: Center(
               child: Text(
-                '#4',
+                '#2',
                 style: WhiteInterTextStyle.copyWith(
                   fontSize: 24,
                   fontWeight: medium,
@@ -239,10 +282,9 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
             width: 6,
           ),
           Text(
-            '06d 23h 00m',
-            style: WhiteRubikTextStyle.copyWith(
+            '3 Hari lagi',
+            style: WhiteInterTextStyle.copyWith(
               fontWeight: medium,
-              fontSize: 11,
             ),
           ),
         ],
@@ -251,19 +293,46 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
   }
 
   Widget buildRanks() {
-    return Container(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          buildRank(3, 2, 'Ipin', '1.252'),
-          buildRank(1, 1, 'Upin', '1.321'),
-          buildRank(6, 3, 'Mail', '1.076'),
-        ],
-      ),
-    );
+    return leaderboardData.isNotEmpty
+        ? Container(
+            margin: EdgeInsets.only(bottom: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                leaderboardData.length > 1
+                    ? buildRank(
+                        2,
+                        2,
+                        leaderboardData[1]['user'],
+                        leaderboardData[1]['skor'].toString(),
+                      )
+                    : Container(),
+                leaderboardData.isNotEmpty
+                    ? buildRank(
+                        1,
+                        1,
+                        leaderboardData[0]['user'],
+                        leaderboardData[0]['skor'].toString(),
+                      )
+                    : Container(),
+                leaderboardData.length > 2
+                    ? buildRank(
+                        3,
+                        3,
+                        leaderboardData[2]['user'],
+                        leaderboardData[2]['skor'].toString(),
+                      )
+                    : Container(),
+              ],
+            ),
+          )
+        : Center(
+            child: CircularProgressIndicator(),
+          );
   }
 
-  Widget buildRank(numberAvatar, numberRank, name, point) {
+  Widget buildRank(int numberAvatar, int numberRank, String name, String point) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -331,7 +400,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
     );
   }
 
-  String getImageRankPath(numberPath) {
+  String getImageRankPath(int numberPath) {
     switch (numberPath) {
       case 1:
         return 'assets/images/gamification/rank1nd.png';

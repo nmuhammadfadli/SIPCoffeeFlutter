@@ -80,7 +80,7 @@ class _HargaKopiState extends State<HargaKopi> {
                               ),
                               SizedBox(height: 5),
                               Text(
-                                'Kecamatan Sumber Wringin, Kabupaten Bondowoso',
+                                'Kecamatan Sumbersari, Kabupaten jember',
                                 style: GoogleFonts.aBeeZee(
                                     fontSize: 12.0, fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,

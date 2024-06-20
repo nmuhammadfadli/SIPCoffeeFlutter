@@ -362,7 +362,7 @@ class _ListQuizPageState extends State<ListQuizPage> {
       itemCount: 4,
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return AvatarNonCard();
+       // return AvatarNonCard();
       },
     );
   }

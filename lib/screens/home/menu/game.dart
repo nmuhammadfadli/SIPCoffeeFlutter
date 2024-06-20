@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login_signup/screens/home/dashboard.dart';
 import 'package:login_signup/screens/home/menu/gamification/list_quiz_page.dart';
 import 'package:login_signup/screens/home/menu/leaderboard.dart';
+import 'package:login_signup/screens/home_page.dart';
 import 'package:login_signup/services/database_game.dart';
 import 'package:login_signup/theme/new_theme.dart';
 import 'package:login_signup/widgets/gamification/stepper_list.dart';
@@ -59,7 +60,7 @@ class _GamePageState extends State<GamePage> {
           onPressed: () {
             Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DashboardPage()),
+                  MaterialPageRoute(builder: (context) => HomePage()),
                 );
           },
         ),
