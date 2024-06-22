@@ -11,12 +11,13 @@ import 'dart:io';
 import 'package:login_signup/services/api_service.dart';
 import 'package:login_signup/screens/pencatatan/panen/panen.dart';
 
-class PanenAdd extends StatefulWidget {
+class PanenAddNew extends StatefulWidget {
   @override
-  _PanenAddState createState() => _PanenAddState();
+  _PanenAddNewState createState() => _PanenAddNewState();
 }
 
-class _PanenAddState extends State<PanenAdd> {
+class _PanenAddNewState extends State<PanenAddNew> {
+  List<String> kodeLahanList = PanenNewPage.daftarPerawatan.map((data) => data['kode_lahan'].toString()).toList();
   final TextEditingController varietasController = TextEditingController();
   final TextEditingController metodePengolahanController =
       TextEditingController();
@@ -30,7 +31,8 @@ class _PanenAddState extends State<PanenAdd> {
   final TextEditingController hargaController = TextEditingController();
   final TextEditingController deskripsiController = TextEditingController();
   File? _image;
-  String? selectedKodePerawatan;
+
+  String? selectedNamaLahan;
   List<String> kodePerawatanList = [];
 
   @override
@@ -127,84 +129,34 @@ class _PanenAddState extends State<PanenAdd> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(height: 20),
-              GestureDetector(
-                onTap: pickImage,
-                child: _image == null
-                    ? Container(
-                        color: Colors.grey[300],
-                        height: 200,
-                        child: Icon(Icons.add_a_photo,
-                            size: 50, color: Colors.grey),
-                      )
-                    : Image.file(_image!),
-              ),
-              SizedBox(height: 20),
               DropdownButtonFormField<String>(
-                value: selectedKodePerawatan,
+                value: selectedNamaLahan,
                 onChanged: (newValue) {
                   setState(() {
-                    selectedKodePerawatan = newValue;
+                    selectedNamaLahan = newValue;
                   });
                 },
-                items:
-                    kodePerawatanList.map<DropdownMenuItem<String>>((String value) {
+                items: kodeLahanList
+                    .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
                   );
                 }).toList(),
                 decoration: InputDecoration(
-                  labelText: 'Perlakuan',
+                  labelText: 'Pilih Nama Lahan',
                   border: OutlineInputBorder(),
                 ),
               ),
               SizedBox(height: 15),
               CustomTextField(
-                labelText: 'Varietas Kopi',
+                labelText: 'Jumlah Hasil Panen',
                 controller: varietasController,
-              ),
-              SizedBox(height: 15),
-              CustomTextField(
-                labelText: 'Metode Pengolahan',
-                controller: metodePengolahanController,
               ),
               SizedBox(height: 15),
               CustomDatePickerField(
                 labelText: 'Tanggal Panen',
-                controller: tanggalPanenController,
-              ),
-              SizedBox(height: 15),
-              CustomDatePickerField(
-                labelText: 'Tanggal Roasting',
-                controller: tanggalRoastingController,
-              ),
-              SizedBox(height: 15),
-              CustomDatePickerField(
-                labelText: 'Tanggal Expired',
                 controller: tanggalExpiredController,
-              ),
-              SizedBox(height: 15),
-              CustomTextField(
-                labelText: 'Berat',
-                controller: beratController,
-                isTextInput: false,
-              ),
-              SizedBox(height: 15),
-              CustomTextField(
-                labelText: 'Stok',
-                controller: stokController,
-                isTextInput: false,
-              ),
-              SizedBox(height: 15),
-              CustomTextField(
-                labelText: 'Harga',
-                controller: hargaController,
-                isTextInput: false,
-              ),
-              SizedBox(height: 15),
-              CustomTextField(
-                labelText: 'Deskripsi',
-                controller: deskripsiController,
               ),
               SizedBox(height: 16.0),
               ElevatedButton(
@@ -233,7 +185,7 @@ class _PanenAddState extends State<PanenAdd> {
   }
 
   bool _validateInputs() {
-    return selectedKodePerawatan != null &&
+    return selectedNamaLahan != null &&
         varietasController.text.isNotEmpty &&
         metodePengolahanController.text.isNotEmpty &&
         beratController.text.isNotEmpty &&
@@ -248,7 +200,7 @@ class _PanenAddState extends State<PanenAdd> {
 
   void _saveData() async {
     var result = await ApiService.tambahKopi(
-      kode: selectedKodePerawatan!,
+      kode: selectedNamaLahan!,
       varietas: varietasController.text,
       metodePengolahan: metodePengolahanController.text,
       tglPanen: tanggalPanenController.text,

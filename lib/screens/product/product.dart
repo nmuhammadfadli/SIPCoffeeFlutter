@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:login_signup/screens/product/new/product_add_new.dart';
 import 'package:login_signup/screens/product/productdetailpage.dart';
 import 'package:login_signup/theme/new_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -226,7 +227,7 @@ class _ProductPageState extends State<ProductPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PanenAdd()),
+            MaterialPageRoute(builder: (context) => ProductAddNew()),
           );
         },
         child: Icon(Icons.add),

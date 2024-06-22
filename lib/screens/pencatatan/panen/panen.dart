@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:login_signup/screens/pencatatan/panen/panen_add.dart';
-import 'package:login_signup/services/panen_api.dart'; 
+import 'package:login_signup/services/panen_api.dart';
 
 class PanenPage extends StatefulWidget {
   @override
@@ -47,7 +47,7 @@ class _PanenPageState extends State<PanenPage> {
             fontWeight: FontWeight.w600,
           ),
         ),
-       centerTitle: true,
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.green),
           onPressed: () {
@@ -78,25 +78,30 @@ class _PanenPageState extends State<PanenPage> {
                       itemBuilder: (context, index) {
                         final item = data[index];
                         final kodeKopi = item['kode_kopi'] ?? 'Tidak ada data';
-                        final varietasKopi = item['varietas_kopi'] ?? 'Tidak ada data';
-                        final metodePengolahan = item['metode_pengolahan'] ?? 'Tidak ada data';
-                        final tglRoasting = item['tgl_roasting'] ?? 'Tidak ada data';
-                        final stok = item['stok']?.toString() ?? 'Tidak ada data';
+                        final varietasKopi =
+                            item['varietas_kopi'] ?? 'Tidak ada data';
+                        final metodePengolahan =
+                            item['metode_pengolahan'] ?? 'Tidak ada data';
+                        final tglRoasting =
+                            item['tgl_roasting'] ?? 'Tidak ada data';
+                        final stok =
+                            item['stok']?.toString() ?? 'Tidak ada data';
 
                         return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 16.0),
                           child: Card(
                             elevation: 4.0,
                             child: ListTile(
                               leading: Icon(
-                                Icons.local_florist, 
-                                color: Colors.green, 
+                                Icons.local_florist,
+                                color: Colors.green,
                               ),
                               title: Text(
                                 'Kode Kopi: $kodeKopi',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'Roboto', 
+                                  fontFamily: 'Roboto',
                                 ),
                               ),
                               subtitle: Column(
@@ -106,14 +111,14 @@ class _PanenPageState extends State<PanenPage> {
                                     children: [
                                       Icon(
                                         Icons.coffee,
-                                        color: Colors.green, 
-                                        size: 16.0, 
+                                        color: Colors.green,
+                                        size: 16.0,
                                       ),
                                       SizedBox(width: 8.0),
                                       Text(
                                         'Varietas Kopi: $varietasKopi',
                                         style: TextStyle(
-                                          fontFamily: 'Roboto', 
+                                          fontFamily: 'Roboto',
                                           color: Colors.grey[800],
                                         ),
                                       ),
@@ -122,15 +127,15 @@ class _PanenPageState extends State<PanenPage> {
                                   Row(
                                     children: [
                                       Icon(
-                                        Icons.settings, 
-                                        color: Colors.green, 
-                                        size: 16.0, 
+                                        Icons.settings,
+                                        color: Colors.green,
+                                        size: 16.0,
                                       ),
                                       SizedBox(width: 8.0),
                                       Text(
                                         'Metode Pengolahan: $metodePengolahan',
                                         style: TextStyle(
-                                          fontFamily: 'Roboto', 
+                                          fontFamily: 'Roboto',
                                           color: Colors.grey[800],
                                         ),
                                       ),
@@ -139,15 +144,15 @@ class _PanenPageState extends State<PanenPage> {
                                   Row(
                                     children: [
                                       Icon(
-                                        Icons.calendar_today, 
-                                        color: Colors.green, 
-                                        size: 16.0, 
+                                        Icons.calendar_today,
+                                        color: Colors.green,
+                                        size: 16.0,
                                       ),
                                       SizedBox(width: 8.0),
                                       Text(
                                         'Tanggal Roasting: $tglRoasting',
                                         style: TextStyle(
-                                          fontFamily: 'Roboto', 
+                                          fontFamily: 'Roboto',
                                           color: Colors.grey[800],
                                         ),
                                       ),
@@ -156,15 +161,15 @@ class _PanenPageState extends State<PanenPage> {
                                   Row(
                                     children: [
                                       Icon(
-                                        Icons.inventory, 
-                                        color: Colors.green, 
-                                        size: 16.0, 
+                                        Icons.inventory,
+                                        color: Colors.green,
+                                        size: 16.0,
                                       ),
                                       SizedBox(width: 8.0),
                                       Text(
                                         'Stok: $stok',
                                         style: TextStyle(
-                                          fontFamily: 'Roboto', 
+                                          fontFamily: 'Roboto',
                                           color: Colors.grey[800],
                                         ),
                                       ),
@@ -172,9 +177,7 @@ class _PanenPageState extends State<PanenPage> {
                                   ),
                                 ],
                               ),
-                              onTap: () {
-                               
-                              },
+                              onTap: () {},
                             ),
                           ),
                         );

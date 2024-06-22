@@ -22,6 +22,7 @@ class CustomDatePickerField extends StatelessWidget {
       },
       decoration: InputDecoration(
         labelText: labelText,
+        labelStyle: const TextStyle(color: Colors.white),
         hintText: hintText,
         hintStyle: const TextStyle(
           color: Colors.white,

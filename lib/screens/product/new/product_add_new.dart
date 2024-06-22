@@ -11,12 +11,12 @@ import 'dart:io';
 import 'package:login_signup/services/api_service.dart';
 import 'package:login_signup/screens/pencatatan/panen/panen.dart';
 
-class PanenAdd extends StatefulWidget {
+class ProductAddNew extends StatefulWidget {
   @override
-  _PanenAddState createState() => _PanenAddState();
+  _ProductAddNewState createState() => _ProductAddNewState();
 }
 
-class _PanenAddState extends State<PanenAdd> {
+class _ProductAddNewState extends State<ProductAddNew> {
   final TextEditingController varietasController = TextEditingController();
   final TextEditingController metodePengolahanController =
       TextEditingController();
@@ -31,7 +31,9 @@ class _PanenAddState extends State<PanenAdd> {
   final TextEditingController deskripsiController = TextEditingController();
   File? _image;
   String? selectedKodePerawatan;
-  List<String> kodePerawatanList = [];
+  List<String> kodeHasilRoastingList = PanenNewPage.daftarHasilRoasting
+      .map((data) => data['id_roasting'].toString())
+      .toList();
 
   @override
   void initState() {
@@ -57,7 +59,7 @@ class _PanenAddState extends State<PanenAdd> {
           List<dynamic> innerList = jsonResponse[0];
           if (innerList.isNotEmpty && innerList[0] is Map<String, dynamic>) {
             setState(() {
-              kodePerawatanList = innerList
+              kodeHasilRoastingList = innerList
                   .map((item) => item['kode_peremajaan'] as String)
                   .toList();
             });
@@ -106,7 +108,7 @@ class _PanenAddState extends State<PanenAdd> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          "Tambah Hasil Panen",
+          "Tambah Product",
           style: TextStyle(
             color: Colors.green,
             fontWeight: FontWeight.w600,
@@ -146,65 +148,32 @@ class _PanenAddState extends State<PanenAdd> {
                     selectedKodePerawatan = newValue;
                   });
                 },
-                items:
-                    kodePerawatanList.map<DropdownMenuItem<String>>((String value) {
+                items: kodeHasilRoastingList
+                    .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
                   );
                 }).toList(),
                 decoration: InputDecoration(
-                  labelText: 'Perlakuan',
+                  labelText: 'Pilih Hasil Roasting',
                   border: OutlineInputBorder(),
                 ),
               ),
               SizedBox(height: 15),
               CustomTextField(
-                labelText: 'Varietas Kopi',
+                labelText: 'Metode Roasting',
                 controller: varietasController,
               ),
               SizedBox(height: 15),
               CustomTextField(
-                labelText: 'Metode Pengolahan',
+                labelText: 'Jumlah',
                 controller: metodePengolahanController,
               ),
               SizedBox(height: 15),
               CustomDatePickerField(
-                labelText: 'Tanggal Panen',
+                labelText: 'Tanggal Pengemasan',
                 controller: tanggalPanenController,
-              ),
-              SizedBox(height: 15),
-              CustomDatePickerField(
-                labelText: 'Tanggal Roasting',
-                controller: tanggalRoastingController,
-              ),
-              SizedBox(height: 15),
-              CustomDatePickerField(
-                labelText: 'Tanggal Expired',
-                controller: tanggalExpiredController,
-              ),
-              SizedBox(height: 15),
-              CustomTextField(
-                labelText: 'Berat',
-                controller: beratController,
-                isTextInput: false,
-              ),
-              SizedBox(height: 15),
-              CustomTextField(
-                labelText: 'Stok',
-                controller: stokController,
-                isTextInput: false,
-              ),
-              SizedBox(height: 15),
-              CustomTextField(
-                labelText: 'Harga',
-                controller: hargaController,
-                isTextInput: false,
-              ),
-              SizedBox(height: 15),
-              CustomTextField(
-                labelText: 'Deskripsi',
-                controller: deskripsiController,
               ),
               SizedBox(height: 16.0),
               ElevatedButton(
